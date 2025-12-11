@@ -1,0 +1,411 @@
+".frequencyWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+// ========== HEADER ==========
+".header": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+	left: 40,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
+}
+
+"#logoSmall": {
+	width: 35,
+	height: 43  
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 10,
+	top: 10
+}
+
+".headerTitleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".headerTitleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 0,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// ========== NAVIGATION BAR ==========
+".navBar": {
+	width: 600,
+	height: 35,
+	layout: "horizontal",
+	borderRadius: 18,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	top: 22,
+	right: 40,
+	zIndex: 2,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
+}
+
+".navItem": {
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 100,
+	height: Ti.UI.FILL,
+	touchEnabled: true,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
+}
+
+".navItemActive": {
+	color: "#FBA71E",
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-SemiBold"
+	}
+}
+
+// ========== MAIN CONTENT ==========
+".mainContent": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 75,
+	zIndex: 1,
+	center: { x: "50%" }
+}
+
+".card": {
+	width: 360,
+	height: 270,
+	borderRadius: 20,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	layout: "composite",
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+"#frequencySetupCard": {
+	left: 0
+}
+
+"#frequencyTestCard": {
+	left: 25
+}
+
+// ========== CARD TITLES ==========
+".cardTitle": {
+	top: 15,
+	font: {
+		fontSize: 26,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".instruction": {
+	top: 60,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".testInstruction": {
+	top: 60,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+// ========== FREQUENCY SETUP CARD ==========
+".frequencyLabelsContainer": {
+	top: 95,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	center: { x: "50%" }
+}
+
+".frequencyLabel": {
+	font: {
+		fontSize: 17,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 60,
+	height: Ti.UI.SIZE,
+	left: 8,
+	right: 8
+}
+
+".sliderContainer": {
+	top: 125,
+	width: 280,
+	height: 25,
+	center: { x: "50%" }
+}
+
+"#frequencySlider": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	min: 25,
+	max: 75,
+	value: 57,
+	tintColor: "#2495A1",
+	thumbTintColor: "#E4F0FA"
+}
+
+"#currentFrequency": {
+	top: 155,
+	font: {
+		fontSize: 25,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".frequencyDisplay": {
+	font: {
+		fontSize: 42,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center"
+}
+
+// ========== STATUS SECTION ==========
+".statusContainer": {
+	bottom: 10,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	center: { x: "50%" }
+}
+
+".buoyStatusContainer": {
+	width: 110,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	left: 12
+}
+
+".deviceStatusContainer": {
+	width: 110,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	left: 12
+}
+
+".statusLabel": {
+	font: {
+		fontSize: 15,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+"#buoyStatusIcon": {
+	width: 42,
+	height: 42,
+	top: 5,
+	center: { x: "50%" }
+}
+
+"#deviceStatusIcon": {
+	width: 42,
+	height: 42,
+	top: 5,
+	center: { x: "50%" }
+}
+
+".statusIcon": {
+	width: 42,
+	height: 42,
+	top: 20
+}
+
+// ========== FREQUENCY TEST CARD ==========
+".testButton": {
+	top: 105,
+	width: 220,
+	height: 60,
+	center: { x: "50%" },
+	borderRadius: 30,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 32,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+	shadowColor: "#081b1dff",  
+	shadowOffset: { x: -1, y: 3 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 6
+}
+
+"#testButton": {
+	top: 105,
+	center: { x: "50%" }
+}
+
+".clickToStart": {
+	top: 185,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#46D365",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	visible: true
+}
+
+"#clickToStartLabel": {
+	top: 200
+}
+
+".testStatus": {
+	top: 185,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	visible: false
+}
+
+"#testingLabel": {
+	top: 185
+}
+
+".signalDetected": {
+	top: 220,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#46D365",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	visible: false
+}
+
+"#signalDetectedLabel": {
+	top: 220
+}
+
+// ========== BOTTOM NAVIGATION ==========
+".bottomNavContainer": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	bottom: 12,
+	zIndex: 2,
+	center: { x: "50%" }
+}
+
+".navButton": {
+	width: 100,
+	height: 35,
+	borderRadius: 17,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+}
+
+".navButton[platform=ios]": {
+	shadowColor: "#081b1dff",  
+	shadowOffset: { x: -1, y: 3 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 6
+}
+
+"#backButton": {
+	width: 100,
+	height: 35,
+	title: "BACK"
+}
+
+"#nextButton": {
+	width: 100,
+	height: 35,
+	left: 25,
+	title: "NEXT"
+}

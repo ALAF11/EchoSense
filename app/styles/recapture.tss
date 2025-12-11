@@ -1,0 +1,382 @@
+// ========== RECAPTURE SCREEN STYLES ==========
+
+// Window
+".recaptureWindow": {
+	backgroundColor: '#0A2933',
+	fullscreen: false,
+	exitOnClose: false,
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT]
+}
+
+// Background
+".background": {
+	image: 'img/background.png',
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	opacity: 0.5
+}
+
+// ========== HEADER ==========
+".header": {
+	top: 15,
+	left: 20,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: 'horizontal'
+}
+
+"#logoSmall": {
+	width: 60,
+	height: 60,
+	left: 0
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: 'horizontal',
+	left: 10
+}
+
+".headerTitleEcho": {
+	text: 'Echo',
+	font: {
+		fontSize: 28,
+		fontWeight: 'bold'
+	},
+	color: '#2495A1',
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 15
+}
+
+".headerTitleSense": {
+	text: 'Sense',
+	font: {
+		fontSize: 28,
+		fontWeight: 'bold'
+	},
+	color: '#FFFFFF',
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 15
+}
+
+// ========== NAVIGATION BAR ==========
+".navBar": {
+	top: 20,
+	right: 20,
+	width: Ti.UI.SIZE,
+	height: 40,
+	layout: 'horizontal',
+	backgroundColor: 'rgba(36, 149, 161, 0.2)',
+	borderRadius: 20,
+	borderColor: '#2495A1',
+	borderWidth: 2
+}
+
+".navItem": {
+	color: '#FFFFFF',
+	font: {
+		fontSize: 14,
+		fontWeight: 'normal'
+	},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.FILL,
+	left: 15,
+	right: 15,
+	opacity: 0.7
+}
+
+".navItemActive": {
+	color: '#FFA726',
+	opacity: 1.0,
+	font: {
+		fontSize: 14,
+		fontWeight: 'bold'
+	}
+}
+
+// ========== MAIN CONTENT ==========
+".mainContent": {
+	top: 100,
+	left: 40,
+	right: 40,
+	bottom: 120,
+	layout: 'horizontal'
+}
+
+// ========== CARDS ==========
+".card": {
+	width: '48%',
+	height: Ti.UI.FILL,
+	backgroundColor: 'rgba(36, 116, 130, 0.15)',
+	borderRadius: 15,
+	borderColor: '#387482',
+	borderWidth: 2,
+	layout: 'vertical',
+	left: 10,
+	right: 10
+}
+
+".cardTitle": {
+	text: '',
+	font: {
+		fontSize: 22,
+		fontWeight: 'bold'
+	},
+	color: '#FFA726',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 20
+}
+
+// ========== RESURFACING CARD ==========
+".infoSection": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	top: 25,
+	left: 40,
+	right: 40
+}
+
+".infoLabel": {
+	font: {
+		fontSize: 18,
+		fontWeight: 'normal'
+	},
+	color: '#FFFFFF',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".timeValue": {
+	font: {
+		fontSize: 32,
+		fontWeight: 'bold',
+		fontFamily: 'monospace'
+	},
+	color: '#2495A1',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 5
+}
+
+".dataValue": {
+	font: {
+		fontSize: 28,
+		fontWeight: 'bold',
+		fontFamily: 'monospace'
+	},
+	color: '#2495A1',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 5
+}
+
+// Status Icons Container
+".statusIconsContainer": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: 'horizontal',
+	top: 30,
+	bottom: 20,
+	left: 40,
+	right: 40
+}
+
+".statusGroup": {
+	width: '50%',
+	height: Ti.UI.SIZE,
+	layout: 'vertical'
+}
+
+".statusLabel": {
+	font: {
+		fontSize: 16,
+		fontWeight: 'normal'
+	},
+	color: '#FFFFFF',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".statusIcon": {
+	width: 60,
+	height: 60,
+	top: 10
+}
+
+// ========== MAP CARD ==========
+".mapContainer": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	top: 20,
+	left: 20,
+	right: 20,
+	bottom: 20,
+	backgroundColor: 'rgba(0, 0, 0, 0.3)',
+	borderRadius: 10,
+	borderColor: '#2495A1',
+	borderWidth: 2
+}
+
+".mapPlaceholder": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	borderRadius: 10
+}
+
+".mapOverlay": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	top: 20,
+	right: 30,
+	backgroundColor: 'rgba(36, 149, 161, 0.9)',
+	borderRadius: 10,
+	borderColor: '#2495A1',
+	borderWidth: 2
+}
+
+".mapOverlayUncertainty": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	top: 150,
+	left: '35%',
+	backgroundColor: 'rgba(36, 149, 161, 0.9)',
+	borderRadius: 10,
+	borderColor: '#2495A1',
+	borderWidth: 2
+}
+
+".mapLabel": {
+	font: {
+		fontSize: 14,
+		fontWeight: 'bold'
+	},
+	color: '#FFFFFF',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 10,
+	left: 15,
+	right: 15
+}
+
+".mapIconBoat": {
+	width: 40,
+	height: 40,
+	top: 5,
+	bottom: 10,
+	left: 15,
+	right: 15
+}
+
+".mapIconDevice": {
+	width: 40,
+	height: 40,
+	top: 5,
+	bottom: 10,
+	left: 15,
+	right: 15
+}
+
+// Buoy Location Info (bottom of map)
+".buoyLocationInfo": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: 'horizontal',
+	bottom: 20,
+	left: '25%',
+	backgroundColor: 'rgba(36, 149, 161, 0.95)',
+	borderRadius: 10,
+	borderColor: '#2495A1',
+	borderWidth: 2
+}
+
+".buoyLocationIcon": {
+	width: 30,
+	height: 30,
+	left: 15,
+	top: 8
+}
+
+".buoyLocationText": {
+	font: {
+		fontSize: 14,
+		fontWeight: 'bold'
+	},
+	color: '#FFFFFF',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 8,
+	left: 10
+}
+
+".coordinatesText": {
+	font: {
+		fontSize: 12,
+		fontWeight: 'normal',
+		fontFamily: 'monospace'
+	},
+	color: '#FFFFFF',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 10,
+	left: 5,
+	right: 15
+}
+
+// ========== BOTTOM ACTION BUTTONS ==========
+".bottomActionContainer": {
+	bottom: 30,
+	left: 40,
+	right: 40,
+	height: 60,
+	layout: 'horizontal',
+	width: Ti.UI.FILL
+}
+
+".actionButton": {
+	font: {
+		fontSize: 18,
+		fontWeight: 'bold'
+	},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	borderRadius: 30,
+	height: 60,
+	borderWidth: 0
+}
+
+".recoveredButton": {
+	width: '32%',
+	backgroundColor: '#46D365',
+	color: '#FFFFFF',
+	left: 0
+}
+
+".backButton": {
+	width: '32%',
+	backgroundColor: '#FFFFFF',
+	color: '#2495A1',
+	left: '2%'
+}
+
+".lostButton": {
+	width: '32%',
+	backgroundColor: '#E74C3C',
+	color: '#FFFFFF',
+	left: '2%'
+}

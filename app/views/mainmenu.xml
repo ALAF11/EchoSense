@@ -1,0 +1,84 @@
+<Alloy>
+	<Window class="mainWindow">
+		<!-- Background Image -->
+		<View class="background" />
+		
+		<!-- Header Container -->
+		<View class="header" onClick="backToHome">
+			<!-- Logo -->
+			<ImageView id="logoSmall" image="img/logo.png" />
+			
+			<!-- Title Row -->
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho">Echo</Label>
+				<Label class="headerTitleSense">Sense</Label>
+			</View>
+		</View>
+		
+		<!-- Page Title -->
+		<Label class="pageTitle">MainMenu</Label>
+		
+		<!-- Menu Grid Container -->
+		<View class="menuGrid">
+			<!-- First Row -->
+			<View class="menuRow">
+				<!-- Activate/Status Button -->
+				<View class="menuCard" onClick="navigateToStatus">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_buoy.png" />
+						<Label class="cardTitle">Activate/Status</Label>
+						<Label class="cardDescription">Switch system on/off and view device/buoy status</Label>
+					</View>
+				</View>
+				
+				<!-- Frequency Button -->
+				<View class="menuCard" onClick="navigateToFrequency">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_signal.png" />
+						<Label class="cardTitle">Frequency</Label>
+						<Label class="cardDescription">Choose and test the acoustic frequency used for commands</Label>
+					</View>
+				</View>
+				
+				<!-- Trigger Code Button -->
+				<View class="menuCard" onClick="navigateToTrigger">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_pinpad.png" />
+						<Label class="cardTitle">Trigger code</Label>
+						<Label class="cardDescription">Set up or test trigger code for activation</Label>
+					</View>
+				</View>
+			</View>
+			
+			<!-- Second Row -->
+			<View class="menuRow">
+				<!-- Mission Button -->
+				<View class="menuCard" onClick="navigateToMission">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_location.png" />
+						<Label class="cardTitle">Mission</Label>
+						<Label class="cardDescription">Location, GNSS coordinates, and vessel sonar data</Label>
+					</View>
+				</View>
+				
+				<!-- Recapture Button -->
+				<View class="menuCard" onClick="navigateToRecapture">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_recapture.png" />
+						<Label class="cardTitle">Recapture</Label>
+						<Label class="cardDescription">Track the device during retrieval and visualize resurfacing</Label>
+					</View>
+				</View>
+				
+				<!-- Summary Button -->
+				<View class="menuCard" onClick="navigateToSummary">
+					<View class="cardInner">
+						<ImageView class="cardIcon" image="img/icon_summary.png" />
+						<Label class="cardTitle">Summary</Label>
+						<Label class="cardDescription">Complete mission and access summary logs</Label>
+					</View>
+				</View>
+			</View>
+		</View>
+	</Window>
+</Alloy>

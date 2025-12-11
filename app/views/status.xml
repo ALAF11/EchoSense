@@ -1,0 +1,103 @@
+<Alloy>
+	<Window id="statusWindow" class="statusWindow">
+		<!-- Background Image -->
+		<View class="background" />
+		
+		<!-- Header Container -->
+		<View class="header" onClick="backToHome">
+			<!-- Logo -->
+			<ImageView id="logoSmall" image="img/logo.png" />
+			
+			<!-- Title Row -->
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho">Echo</Label>
+				<Label class="headerTitleSense">Sense</Label>
+			</View>
+		</View>
+		
+		<!-- Navigation Bar -->
+		<View class="navBar">
+			<Label class="navItem navItemActive">Status</Label>
+			<Label class="navItem" onClick="navigateToFrequency">Frequency</Label>
+			<Label class="navItem" onClick="navigateToTriggerCode">Trigger Code</Label>
+			<Label class="navItem" onClick="navigateToMission">Mission</Label>
+			<Label class="navItem" onClick="navigateToRecapture">Recapture</Label>
+			<Label class="navItem" onClick="navigateToEnd">End</Label>
+		</View>
+		
+		<!-- Status Cards Container -->
+		<View class="statusCardsContainer">
+			<!-- Buoy Status Card -->
+			<View class="statusCard">
+				<Label class="statusCardTitle">BUOY STATUS</Label>
+				
+				<View class="statusGrid">
+					<!-- Row 1 -->
+					<View class="statusRow">
+						<View class="statusItem" id="buoyOff" onClick="setBuoyStatus">
+							<ImageView class="statusIcon" image="img/icon_signal_off.png" />
+							<Label class="statusLabel">Off</Label>
+						</View>
+						
+						<View class="statusItem" id="buoyOn" onClick="setBuoyStatus">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_signal_on.png" />
+							<Label class="statusLabel statusLabelInactive">On</Label>
+						</View>
+					</View>
+					
+					<!-- Row 2 -->
+					<View class="statusRow">
+						<View class="statusItem" id="buoyError" onClick="setBuoyStatus">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_error.png" />
+							<Label class="statusLabel statusLabelInactive">Error</Label>
+						</View>
+						
+						<View class="statusItem" id="buoyTransmitting" onClick="setBuoyStatus">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_transmitting.png" />
+							<Label class="statusLabel statusLabelInactive">Transmitting</Label>
+						</View>
+					</View>
+				</View>
+			</View>
+			
+			<!-- Device Status Card -->
+			<View class="statusCard">
+				<Label class="statusCardTitle">DEVICE STATUS</Label>
+				
+				<View class="statusGrid">
+					<!-- Row 1 -->
+					<View class="statusRow">
+						<View class="statusItem" id="deviceOffline">
+							<ImageView class="statusIcon" image="img/icon_signal_off.png" />
+							<Label class="statusLabel">Offline</Label>
+						</View>
+						
+						<View class="statusItem" id="deviceIdle">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_idle.png" />
+							<Label class="statusLabel statusLabelInactive">Idle</Label>
+						</View>
+					</View>
+					
+					<!-- Row 2 -->
+					<View class="statusRow">
+						<View class="statusItem" id="deviceDescending">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_descending.png" />
+							<Label class="statusLabel statusLabelInactive">Descending</Label>
+						</View>
+						
+						<View class="statusItem" id="deviceAscending">
+							<ImageView class="statusIcon statusIconInactive" image="img/icon_ascending.png" />
+							<Label class="statusLabel statusLabelInactive">Ascending</Label>
+						</View>
+					</View>
+				</View>
+			</View>
+		</View>
+		
+		<!-- Activation Section -->
+		<View class="activationSection">
+			<Label class="activationTitle">BUOY ACTIVATION</Label>
+			<Button id="activateButton" class="activateButton" onClick="toggleBuoyActivation">ACTIVATE</Button>
+		</View>
+	</Window>
+</Alloy>

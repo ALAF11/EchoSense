@@ -1,0 +1,247 @@
+".statusWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+// Header 
+".header": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+    left: 40,
+    shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
+}
+
+"#logoSmall": {
+	width: 35,
+	height: 43  
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 10,
+	top: 10
+}
+
+".headerTitleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".headerTitleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 20,
+        fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 0,
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// Navigation Bar
+".navBar": {
+	width: 600,
+	height: 35,
+	layout: "horizontal",
+	borderRadius: 18,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	top: 22,
+	right: 40,
+	zIndex: 2,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
+}
+
+".navItem": {
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 100,
+	height: Ti.UI.FILL,
+	touchEnabled: true,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
+}
+
+".navItemActive": {
+	color: "#FBA71E",
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-SemiBold"
+	}
+}
+
+// Status Cards 
+".statusCardsContainer": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 70,
+	zIndex: 2
+}
+
+// Status Card
+".statusCard": {
+	width: 330,
+	height: 200,
+	borderRadius: 15,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	layout: "vertical",
+    top: 15,
+	right: 15,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+".statusCardTitle": {
+	text: "STATUS",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 12,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// Status Grid
+".statusGrid": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	top: 4
+}
+
+".statusRow": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	bottom: 4
+}
+
+".statusItem": {
+	width: 140,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	left: 20,
+	touchEnabled: false
+}
+
+".statusIcon": {
+	width: 45,
+	height: 45,
+	opacity: 1.0
+}
+
+".statusIconInactive": {
+	opacity: 0.3
+}
+
+".statusLabel": {
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 5
+}
+
+".statusLabelInactive": {
+	color: "#637B85",
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Regular"
+	}
+}
+
+// Activation Section
+".activationSection": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	bottom: 15,
+	zIndex: 2
+}
+
+".activationTitle": {
+	text: "BUOY ACTIVATION",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	bottom: 10,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".activateButton": {
+	width: 250,
+	height: 50,
+	borderRadius: 25,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+}
+
+".activateButton[platform=ios]": {
+	borderRadius: 25,
+    shadowColor: "#081b1dff",  
+    shadowOffset: { x: -1, y: 3 },        
+    shadowOpacity: 0.30,                 
+    shadowRadius: 6                      
+}

@@ -1,0 +1,106 @@
+<Alloy>
+	<Window id="recaptureWindow" class="recaptureWindow">
+		
+		<!-- Background Image -->
+		<ImageView class="background" />
+		
+		<!-- Header -->
+		<View class="header">
+			<ImageView id="logoSmall" image="img/logo.png" />
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho" />
+				<Label class="headerTitleSense" />
+			</View>
+		</View>
+		
+		<!-- Navigation Bar -->
+		<View class="navBar">
+			<Label class="navItem" text="Status" onClick="navigateToStatus" />
+			<Label class="navItem" text="Frequency" onClick="navigateToFrequency" />
+			<Label class="navItem" text="Trigger Code" onClick="navigateToTriggerCode" />
+			<Label class="navItem" text="Mission" onClick="navigateToMission" />
+			<Label class="navItem navItemActive" text="Recapture" />
+			<Label class="navItem" text="End" onClick="navigateToEnd" />
+		</View>
+		
+		<!-- Main Content -->
+		<View class="mainContent">
+			
+			<!-- Left Card: Resurfacing & Timers -->
+			<View id="resurfacingCard" class="card">
+				<Label class="cardTitle" text="RESURFACING &amp; TIMERS" />
+				
+				<!-- Time Since Resurfacing -->
+				<View class="infoSection">
+					<Label class="infoLabel" text="Time since resurfacing:" />
+					<Label id="timeSinceResurfacing" class="timeValue" text="00:00:00" />
+				</View>
+				
+				<!-- Distance & Bearing to Buoy -->
+				<View class="infoSection">
+					<Label class="infoLabel" text="Distance &amp; Bearing to buoy:" />
+					<Label id="distanceBearing" class="dataValue" text="0 m | 000°" />
+				</View>
+				
+				<!-- Target Drift -->
+				<View class="infoSection">
+					<Label class="infoLabel" text="Target Drift:" />
+					<Label id="targetDrift" class="dataValue" text="0.0 m/s | 000°" />
+				</View>
+				
+				<!-- Status Icons -->
+				<View class="statusIconsContainer">
+					<!-- Buoy Status -->
+					<View class="statusGroup">
+						<Label class="statusLabel" text="Buoy status:" />
+						<ImageView id="buoyStatusIcon" class="statusIcon" image="img/icon_signal.png" />
+					</View>
+					
+					<!-- Device Status -->
+					<View class="statusGroup">
+						<Label class="statusLabel" text="Device status:" />
+						<ImageView id="deviceStatusIcon" class="statusIcon" image="img/icon_idle.png" />
+					</View>
+				</View>
+			</View>
+			
+			<!-- Right Card: Map & Uncertainty Area -->
+			<View id="mapCard" class="card">
+				<Label class="cardTitle" text="MAP &amp; UNCERTAINTY AREA" />
+				
+				<!-- Map Container -->
+				<View id="mapContainer" class="mapContainer">
+					<!-- Placeholder for map - in production this would be a real map view -->
+					<ImageView id="mapPlaceholder" class="mapPlaceholder" image="img/map_placeholder.png" />
+					
+					<!-- Map Overlay Information -->
+					<View class="mapOverlay">
+						<Label class="mapLabel" text="BOAT POSITION" />
+						<ImageView class="mapIconBoat" image="img/icon_boat.png" />
+					</View>
+					
+					<View class="mapOverlayUncertainty">
+						<Label class="mapLabel" text="UNCERTAINTY AREA" />
+						<ImageView class="mapIconDevice" image="img/icon_device.png" />
+					</View>
+					
+					<!-- Buoy Location Info -->
+					<View class="buoyLocationInfo">
+						<ImageView class="buoyLocationIcon" image="img/icon_buoy_location.png" />
+						<Label id="buoyLocation" class="buoyLocationText" text="BUOY LOCATION" />
+						<Label id="buoyCoordinates" class="coordinatesText" text="N 00.0000, W 000.0000" />
+					</View>
+				</View>
+			</View>
+			
+		</View>
+		
+		<!-- Bottom Action Buttons -->
+		<View class="bottomActionContainer">
+			<Button id="markRecoveredButton" class="actionButton recoveredButton" title="MARK AS RECOVERED" onClick="markAsRecovered" />
+			<Button id="backButton" class="actionButton backButton" title="BACK" onClick="goBack" />
+			<Button id="markLostButton" class="actionButton lostButton" title="MARK AS LOST" onClick="markAsLost" />
+		</View>
+		
+	</Window>
+</Alloy>

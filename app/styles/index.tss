@@ -1,0 +1,120 @@
+".mainWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+".centerContainer": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	center: {
+		x: "50%",
+		y: "50%"
+	},
+	zIndex: 1
+}
+
+"#logo": {
+	width: 130,
+	height: 160
+}
+
+".titleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15
+}
+
+".titleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 48,
+		fontFamily: "Poppins-Bold"
+	},
+	color: "#2C9BA9",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE
+}
+
+".titleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 48,
+		fontFamily: "Poppins-Bold"
+	},
+	color: "#F5A637",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 5
+}
+
+".subtitle": {
+	text: "Subsea Recovery & Monitoring",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 8
+}
+
+".startButton": {
+	title: "Let's start",
+	backgroundColor: "#FFFFFF",
+	color: "#0A2E3D",
+	font: {
+		fontSize: 16,
+		fontWeight: "600",
+		fontFamily: "Poppins-Medium"
+	},
+	borderRadius: 22,
+	width: 180,
+	height: 44,
+	top: 20
+}
+
+".startButton[platform=ios]": {
+	borderRadius: 22
+}
+
+/* Ajustes para iPad - elementos maiores */
+"#logo[formFactor=tablet]": {
+	width: 220,
+	height: 220
+}
+
+".titleEcho[formFactor=tablet]": {
+	fontSize: 72
+}
+
+".titleSense[formFactor=tablet]": {
+	fontSize: 72
+}
+
+".subtitle[formFactor=tablet]": {
+	fontSize: 24
+}
+
+".startButton[formFactor=tablet]": {
+	width: 240,
+	height: 60,
+	font: {
+		fontSize: 20,
+		fontWeight: "600"
+	},
+	borderRadius: 30
+}

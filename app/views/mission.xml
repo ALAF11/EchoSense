@@ -1,0 +1,99 @@
+<Alloy>
+	<Window id="missionWindow" class="missionWindow">
+		
+		<!-- Background Image -->
+		<ImageView class="background" />
+		
+		<!-- Header -->
+		<View class="header">
+			<ImageView id="logoSmall" image="img/logo.png" />
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho" />
+				<Label class="headerTitleSense" />
+			</View>
+		</View>
+		
+		<!-- Navigation Bar -->
+		<View class="navBar">
+			<Label class="navItem" text="Status" onClick="navigateToStatus" />
+			<Label class="navItem" text="Frequency" onClick="navigateToFrequency" />
+			<Label class="navItem" text="Trigger Code" onClick="navigateToTriggerCode" />
+			<Label class="navItem navItemActive" text="Mission" />
+			<Label class="navItem" text="Recapture" onClick="navigateToRecapture" />
+			<Label class="navItem" text="End" onClick="navigateToEnd" />
+		</View>
+		
+		<!-- Main Content -->
+		<View class="mainContent">
+			
+			<!-- Left Card: Deployment Status -->
+			<View id="deploymentStatusCard" class="card">
+				<Label class="cardTitle" text="DEPLOYMENT STATUS" />
+				
+				<!-- Depth and Distance Information -->
+				<View class="metricsContainer">
+					<!-- Depth Meter -->
+					<View class="metricGroup">
+						<ImageView class="metricIcon" image="img/depth_meter.png" />
+						<Label class="metricLabel" text="Depth Meter:" />
+						<Label id="depthValue" class="metricValue" text="0m" />
+					</View>
+					
+					<!-- Distance to Buoy -->
+					<View class="metricGroup">
+						<ImageView class="metricIcon" image="img/diving_buoy.png" />
+						<Label class="metricLabel" text="Distance To Buoy:" />
+						<Label id="distanceValue" class="metricValue" text="0m" />
+					</View>
+				</View>
+				
+				<!-- Time Information -->
+				<View class="timeContainer">
+					<!-- Elapsed Time -->
+					<View class="timeGroup">
+						<ImageView class="timeIcon" image="img/time.png" />
+						<Label class="timeLabel" text="Elapsed Time:" />
+						<Label id="elapsedTimeValue" class="timeValue" text="00:00:00" />
+					</View>
+					
+					<!-- Device Status -->
+					<View class="deviceStatusGroup">
+						<ImageView class="deviceIcon" image="img/icon_idle.png" />
+						<Label class="deviceLabel" text="Device Status:" />
+						<Label id="deviceStatusValue" class="deviceStatusValue" text="IDLE" />
+					</View>
+				</View>
+			</View>
+			
+			<!-- Right Card: Acoustic Code Release -->
+			<View id="acousticCodeCard" class="card">
+				<Label class="cardTitle" text="ACOUSTIC CODE RELEASE" />
+				<Label class="instruction" text="Verify the selected trigger code." />
+				
+				<!-- Trigger Code Display -->
+				<View class="triggerCodeDisplay">
+					<Label class="triggerLabel" text="Trigger code:" />
+					<Label id="selectedCodeLabel" class="selectedCode" text="A" />
+				</View>
+				
+				<!-- Activate Button -->
+				<Button id="activateButton" class="activateButton" title="ACTIVATE ACOUSTIC TRIGGER" onClick="activateAcousticTrigger" />
+				
+				<!-- Buoy Status -->
+				<View class="buoyStatusContainer">
+					<Label class="buoyStatusLabel" text="Buoy status:" />
+					<ImageView id="buoyStatusIcon" class="buoyStatusIcon" image="img/icon_signal.png" />
+				</View>
+			</View>
+			
+		</View>
+		
+		<!-- Bottom Navigation -->
+		<View class="bottomNavContainer">
+			<Button id="emergencyAbortButton" class="emergencyButton" title="EMERGENCY ABORT" onClick="emergencyAbort" />
+			<Button id="backButton" class="navButton" onClick="goBack" />
+			<Button id="nextButton" class="navButton" onClick="goNext" />
+		</View>
+		
+	</Window>
+</Alloy>

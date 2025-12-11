@@ -1,0 +1,166 @@
+".mainWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+// Header 
+".header": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+    left: 40,
+    shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
+}
+
+"#logoSmall": {
+	width: 35,
+	height: 43
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 10,
+	top: 10
+}
+
+".headerTitleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".headerTitleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 20,
+        fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 0,
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// Title 
+".pageTitle": {
+	text: "MainMenu",
+	font: {
+		fontSize: 32,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	top: 32,
+	zIndex: 2,
+    shadowColor: "rgba(0, 0, 0, 0.6)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 6
+}
+
+// Grid
+".menuGrid": {
+	width: 1040,
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	top: 88,
+	left: 27,
+	zIndex: 2
+}
+
+".menuRow": {
+	width: 970,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	bottom: 12
+}
+
+// Cards
+".menuCard": {
+	width: 240,
+	height: 140,
+	borderRadius: 15,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.2)",
+	right: 12,
+	touchEnabled: true,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+".cardInner": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	layout: "vertical"
+}
+
+".cardIcon": {
+	width: 40,
+	height: 40,
+	top: 10,
+	touchEnabled: false
+}
+
+".cardTitle": {
+	font: {
+		fontSize: 20,
+		fontWeight: "600",
+        fontFamily: "Poppins-Medium"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 8,
+	touchEnabled: false
+}
+
+".cardDescription": {
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 230,
+	height: Ti.UI.SIZE,
+	top: 4,
+    bottom: 20,
+	touchEnabled: false
+}
+
+".menuCard[platform=ios]": {
+	borderRadius: 15
+}
+
+

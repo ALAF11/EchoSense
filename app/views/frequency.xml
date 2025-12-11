@@ -1,0 +1,102 @@
+<Alloy>
+	<Window id="frequencyWindow" class="frequencyWindow">
+
+        <View class="background"></View>
+		
+		<!-- Header Container -->
+		<View class="header" onClick="backToHome">
+			<!-- Logo -->
+			<ImageView id="logoSmall" image="img/logo.png" />
+			
+			<!-- Title Row -->
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho">Echo</Label>
+				<Label class="headerTitleSense">Sense</Label>
+			</View>
+		</View>
+		
+		<!-- Navigation Bar -->
+		<View class="navBar">
+			<Label class="navItem" onClick="navigateToStatus">Status</Label>
+			<Label class="navItem navItemActive">Frequency</Label>
+			<Label class="navItem" onClick="navigateToTriggerCode">Trigger Code</Label>
+			<Label class="navItem" onClick="navigateToMission">Mission</Label>
+			<Label class="navItem" onClick="navigateToRecapture">Recapture</Label>
+			<Label class="navItem" onClick="navigateToEnd">End</Label>
+		</View>
+		
+		<!-- Main Content Container -->
+		<View class="mainContent">
+			
+			<!-- Left Card: Frequency Setup -->
+			<View id="frequencySetupCard" class="card">
+				<Label class="cardTitle">FREQUENCY SETUP</Label>
+				
+				<Label class="instruction">Drag to select frequency</Label>
+				
+				<!-- Frequency Labels -->
+				<View class="frequencyLabelsContainer">
+					<Label class="frequencyLabel">25 kHz</Label>
+					<Label class="frequencyLabel">50 kHz</Label>
+					<Label class="frequencyLabel">75 kHz</Label>
+				</View>
+				
+				<!-- Slider Container -->
+				<View class="sliderContainer">
+					<Slider id="frequencySlider" 
+						min="25" 
+						max="75" 
+						value="57"
+						onChange="updateFrequency" />
+				</View>
+				
+				<!-- Current Frequency Display -->
+				<Label id="currentFrequency" class="frequencyDisplay">57 kHz</Label>
+				
+				<!-- Status Indicators -->
+				<View class="statusContainer">
+					<View class="buoyStatusContainer">
+						<Label class="statusLabel">Buoy status:</Label>
+						<ImageView id="buoyStatusIcon" class="statusIcon" image="img/icon_signal.png" />
+					</View>
+					
+					<View class="deviceStatusContainer">
+						<Label class="statusLabel">Device status:</Label>
+						<ImageView id="deviceStatusIcon" class="statusIcon" image="img/icon" />
+					</View>
+				</View>
+			</View>
+			
+			<!-- Right Card: Frequency Test -->
+			<View id="frequencyTestCard" class="card">
+				<Label class="cardTitle">FREQUENCY TEST</Label>
+				
+				<Label class="instruction testInstruction">Verify acoustic signal:</Label>
+				
+				<!-- Test Button -->
+				<Button id="testButton" 
+					class="testButton"
+					title="TEST"
+					onClick="testFrequency" />
+				
+				<!-- Test Status Messages -->
+                <Label id="clickToStartLabel" class="clickToStart">Click to start the test</Label>
+				<Label id="testingLabel" class="testStatus">Testing...</Label>
+				<Label id="signalDetectedLabel" class="testStatus">Signal Detected!</Label>
+			</View>
+		</View>
+		
+		<!-- Bottom Navigation Buttons -->
+		<View class="bottomNavContainer">
+			<Button id="backButton" 
+				class="navButton"
+				title="BACK"
+				onClick="goBack" />
+			
+			<Button id="nextButton" 
+				class="navButton"
+				title="NEXT"
+				onClick="goNext" />
+		</View>
+	</Window>
+</Alloy>

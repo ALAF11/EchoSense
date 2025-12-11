@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.tidev.io">
+	<id>com.leonor.echosense</id>
+	<name>EchoSense</name>
+	<version>1.0</version>
+	<publisher>not specified</publisher>
+	<url/>
+	<description/>
+	<copyright>not specified</copyright>
+	<icon>appicon.png</icon>
+	<fullscreen>false</fullscreen>
+	<navbar-hidden>false</navbar-hidden>
+	<guid>33aeac30-0035-4191-ad18-f0faa1f758a9</guid>
+	<property name="ti.ui.defaultunit" type="string">dp</property>
+	<property name="run-on-main-thread" type="bool">true</property>
+	<ios>
+		<enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
+		<use-app-thinning>true</use-app-thinning>
+		<plist>
+			<dict>
+				<!-- Custom Fonts -->
+				<key>UIAppFonts</key>
+				<array>
+					<string>/fonts/Poppins-Regular.ttf</string>
+					<string>/fonts/Poppins-SemiBold.ttf</string>
+					<string>/fonts/Poppins-Medium.ttf</string>
+					<string>/fonts/Poppins-Bold.ttf</string>
+				</array>
+				
+				<key>UISupportedInterfaceOrientations~iphone</key>
+				<array>
+                    <string>UIInterfaceOrientationLandscapeLeft</string>
+                    <string>UIInterfaceOrientationLandscapeRight</string>
+                </array>
+                
+                <!-- Para iPad (se necessário) -->
+                <key>UISupportedInterfaceOrientations~ipad</key>
+                <array>
+                    <string>UIInterfaceOrientationLandscapeLeft</string>
+                    <string>UIInterfaceOrientationLandscapeRight</string>
+                </array>
+                
+                <!-- Orientação inicial -->
+                <key>UIInterfaceOrientation</key>
+                <string>UIInterfaceOrientationLandscapeLeft</string>
+			</dict>
+		</plist>
+	</ios>
+	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1">
+			<application android:icon="@mipmap/ic_launcher"/>
+		</manifest>
+	</android>
+	<modules>
+	</modules>
+	<deployment-targets>
+		<target device="android">false</target>
+		<target device="ipad">false</target>
+		<target device="iphone">true</target>
+	</deployment-targets>
+	<!--<sdk-version>13.0.1.GA</sdk-version>-->
+	<sdk-version>13.0.0.GA</sdk-version>
+<plugins><plugin version="1.0">ti.alloy</plugin>
+</plugins>
+</ti:app>

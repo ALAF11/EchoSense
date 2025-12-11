@@ -1,0 +1,24 @@
+<Alloy>
+	<Window class="mainWindow">
+		<!-- Background Image -->
+		<View class="background" />
+		
+		<!-- Main Content Container (Centered) -->
+		<View class="centerContainer">
+			<!-- Logo -->
+			<ImageView id="logo" image="img/logo.png" />
+			
+			<!-- Title Row -->
+			<View class="titleRow">
+				<Label class="titleEcho">Echo</Label>
+				<Label class="titleSense">Sense</Label>
+			</View>
+			
+			<!-- Subtitle -->
+			<Label class="subtitle">Subsea Recovery &amp; Monitoring</Label>
+			
+			<!-- Start Button -->
+			<Button class="startButton" onClick="onStartClick">Let's start</Button>
+		</View>
+	</Window>
+</Alloy>

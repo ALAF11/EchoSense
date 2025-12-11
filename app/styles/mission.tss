@@ -1,0 +1,452 @@
+// ========== WINDOW & BACKGROUND ==========
+".missionWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+// ========== HEADER ==========
+".header": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+	left: 40,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
+}
+
+"#logoSmall": {
+	width: 35,
+	height: 43  
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 10,
+	top: 10
+}
+
+".headerTitleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".headerTitleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 0,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// ========== NAVIGATION BAR ==========
+".navBar": {
+	width: 600,
+	height: 35,
+	layout: "horizontal",
+	borderRadius: 18,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	top: 22,
+	right: 40,
+	zIndex: 2,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
+}
+
+".navItem": {
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 100,
+	height: Ti.UI.FILL,
+	touchEnabled: true,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
+}
+
+".navItemActive": {
+	color: "#FBA71E",
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-SemiBold"
+	}
+}
+
+// ========== MAIN CONTENT ==========
+".mainContent": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 75,
+	zIndex: 1,
+	center: { x: "50%" }
+}
+
+// ========== CARD (ÚNICA CLASSE) ==========
+".card": {
+	width: 360,
+	height: 270,
+	borderRadius: 20,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	layout: "composite",
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+"#deploymentStatusCard": {
+	left: 0
+}
+
+"#acousticCodeCard": {
+	left: 25
+}
+
+// ========== CARD TITLE ==========
+".cardTitle": {
+	top: 15,
+	font: {
+		fontSize: 26,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// ========== DEPLOYMENT STATUS CARD - COMPONENTS ==========
+".metricsContainer": {
+	top: 55,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	center: { x: "50%" }
+}
+
+".metricGroup": {
+	layout: "vertical",
+	width: 175,
+	height: 120
+}
+
+".metricIcon": {
+	width: 35,
+	height: 35,
+	top: 0,
+	center: { x: "50%" }
+}
+
+".metricLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	top: 7,
+	height: Ti.UI.SIZE
+}
+
+".metricValue": {
+	color: "#2495A1",
+	font: {
+		fontSize: 22,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".timeContainer": {
+	top: 160,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	center: { x: "50%" }
+}
+
+".timeGroup": {
+	layout: "vertical",
+	width: 175,
+	height: 100
+}
+
+".timeIcon": {
+	width: 35,
+	height: 35,
+	top: 4,
+	center: { x: "50%" }
+}
+
+".timeLabel": {
+	top: 180,
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	top: 7,
+	height: Ti.UI.SIZE
+}
+
+".timeValue": {
+	color: "#2495A1",
+	font: {
+		fontSize: 22,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	top: 2,
+	height: Ti.UI.SIZE
+}
+
+".deviceStatusGroup": {
+	layout: "vertical",
+	width: 175,
+	height: 100
+}
+
+".deviceIcon": {
+	width: 35,
+	height: 40,
+	top: 0,
+	center: { x: "50%" }
+}
+
+".deviceLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	top: 7,
+	height: Ti.UI.SIZE
+}
+
+".deviceStatusValue": {
+	color: "#2495A1",
+	font: {
+		fontSize: 22,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+// ========== ACOUSTIC CODE RELEASE CARD - COMPONENTS ==========
+".releaseInstruction": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	top: 75,
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".triggerCodeDisplay": {
+	top: 95,
+	height: 35,
+	width: Ti.UI.FILL,
+	layout: "horizontal",
+	center: { x: "50%", y: "50%" }
+}
+
+".triggerLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-Regular"
+	},
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 110
+}
+
+".instruction": {
+	top: 60,
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".selectedCode": {
+	color: "#46D365",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-Regular"
+	},
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 10
+}
+
+".activateButton": {
+	top: 140,
+	width: 290,
+	height: 40,
+	center: { x: "50%", y: "50%" },
+	borderRadius: 20,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+	title: "ACTIVATE ACOUSTIC TRIGGER"
+}
+
+".activateButton[platform=ios]": {
+	shadowColor: "#081b1dff",  
+	shadowOffset: { x: -1, y: 3 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 6
+}
+
+".buoyStatusContainer": {
+	top: 190,
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,
+	layout: "vertical",
+	center: { x: "50%" }
+}
+
+".buoyStatusLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".buoyStatusIcon": {
+	width: 35,
+	height: 35,
+	top: 5,
+	center: { x: "50%" }
+}
+
+// ========== BOTTOM NAVIGATION ==========
+".bottomNavContainer": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "composite",
+	bottom: 12,
+	zIndex: 2,
+	center: { x: "50%" }
+}
+
+".emergencyButton": {
+	width: 185,
+	height: 35,
+	borderRadius: 17,
+	backgroundColor: "#DD4835",
+	font: {
+		fontSize: 17,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	left: 155,
+	title: "EMERGENCY ABORT"
+}
+
+".emergencyButton[platform=ios]": {
+	shadowColor: "rgba(0, 0, 0, 0.25)",  
+	shadowOffset: { x: -1, y: 3 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 6
+}
+
+".navButton": {
+	width: 100,
+	height: 35,
+	borderRadius: 17,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center"
+}
+
+".navButton[platform=ios]": {
+	shadowColor: "#081b1dff",  
+	shadowOffset: { x: -1, y: 3 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 6
+}
+
+"#backButton": {
+	width: 100,
+	height: 35,
+	right: 270,
+	title: "BACK"
+}
+
+"#nextButton": {
+	width: 100,
+	height: 35,
+	right: 120,
+	title: "NEXT"
+}
