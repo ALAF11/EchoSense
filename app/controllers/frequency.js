@@ -45,16 +45,16 @@ function updateFrequency(e) {
 	var sliderValue = Math.round(e.value);
 	
 	// Update current frequency
-	currentFrequency = sliderValue;
+	Alloy.Globals.currentFrequency = sliderValue;
 	
-	Ti.API.info('Frequency changed to: ' + currentFrequency + ' kHz');
+	Ti.API.info('Frequency changed to: ' + Alloy.Globals.currentFrequency + ' kHz');
 	
 	// Update the display
 	updateFrequencyDisplay();
 }
 
 function updateFrequencyDisplay() {
-	$.currentFrequency.text = currentFrequency + ' kHz';
+	$.currentFrequency.text =  Alloy.Globals.currentFrequency + ' kHz';
 }
 
 // ========== STATUS ICONS ==========
@@ -98,7 +98,7 @@ function updateStatusIcons() {
 
 // ========== FREQUENCY TEST ==========
 function testFrequency(e) {
-	Ti.API.info('Testing frequency: ' + currentFrequency + ' kHz');
+	Ti.API.info('Testing frequency: ' +  Alloy.Globals.currentFrequency + ' kHz');
 	
 	// Prevent multiple simultaneous tests
 	if (isTestingFrequency) {
@@ -161,7 +161,7 @@ function completeFrequencyTest(success) {
 		// Optionally show confirmation dialog
 		var successDialog = Ti.UI.createAlertDialog({
 			title: 'Test Successful',
-			message: 'Acoustic signal at ' + currentFrequency + ' kHz was detected successfully.',
+			message: 'Acoustic signal at ' +  Alloy.Globals.currentFrequency + ' kHz was detected successfully.',
 			ok: 'OK'
 		});
 		successDialog.show();
@@ -174,7 +174,7 @@ function completeFrequencyTest(success) {
 		
 		var failureDialog = Ti.UI.createAlertDialog({
 			title: 'Test Failed',
-			message: 'No acoustic signal detected at ' + currentFrequency + ' kHz. Please try again.',
+			message: 'No acoustic signal detected at ' +  Alloy.Globals.currentFrequency + ' kHz. Please try again.',
 			ok: 'OK'
 		});
 		failureDialog.show();
@@ -321,7 +321,7 @@ $.frequencyWindow.addEventListener('close', function() {
 
 // ========== EXPORTS ==========
 exports.setFrequency = function(frequency) {
-	currentFrequency = frequency;
+	 Alloy.Globals.currentFrequency = frequency;
 	$.frequencySlider.value = frequency;
 	updateFrequencyDisplay();
 };

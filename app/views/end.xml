@@ -1,0 +1,128 @@
+<Alloy>
+	<Window id="endWindow" class="endWindow">
+		
+		<!-- Background Image -->
+		<ImageView class="background" />
+		
+		<!-- Header -->
+		<View class="header">
+			<ImageView id="logoSmall" image="img/logo.png" />
+			<View class="headerTitleRow">
+				<Label class="headerTitleEcho" />
+				<Label class="headerTitleSense" />
+			</View>
+		</View>
+		
+		<!-- Navigation Bar -->
+		<View class="navBar">
+			<Label class="navItem" text="Status" onClick="navigateToStatus" />
+			<Label class="navItem" text="Frequency" onClick="navigateToFrequency" />
+			<Label class="navItem" text="Trigger Code" onClick="navigateToTriggerCode" />
+			<Label class="navItem" text="Mission" onClick="navigateToMission" />
+			<Label class="navItem" text="Recapture" onClick="navigateToRecapture" />
+			<Label class="navItem navItemActive" text="End" />
+		</View>
+		
+		<!-- Main Content -->
+		<View class="mainContent">
+			
+			<!-- Left Card: Mission Summary -->
+			<View id="missionSummaryCard" class="card">
+				<Label class="cardTitle" text="MISSION SUMMARY" />
+				
+				<!-- Success Checkmark -->
+				<ImageView id="successCheckmark" class="successIcon" image="img/check_mark.png" />
+				
+				<!-- Mission ID -->
+				<View class="summaryRow" style="top: 70;">
+					<Label class="summaryLabel" text="Mission ID:" />
+					<Label id="missionIdValue" class="summaryValue" text="MARS-2025-016" />
+				</View>
+				
+				<!-- Total Mission Time -->
+				<View class="summaryRow" style="top: 140;">
+					<Label class="summaryLabel" text="Total Mission Time:" />
+					<Label id="totalTimeValue" class="summaryValueHighlight" text="01 : 27 : 54" />
+				</View>
+				
+				<!-- Deployment Location -->
+				<View class="summaryRow" style="top: 185;">
+					<Label class="summaryLabel" text="Deployment Location:" />
+					<Label id="deployLocationValue" class="summaryValueCoords" text="37.380°N, 11.591°E" />
+				</View>
+				
+				<!-- Recovery Location -->
+				<View class="summaryRow" style="top: 260;">
+					<Label class="summaryLabel" text="Recovery Location:" />
+					<Label id="recoveryLocationValue" class="summaryValueCoords" text="37.385°N, 11.598°E" />
+				</View>
+				
+				<!-- Sea State -->
+				<View class="summaryRowHorizontal" style="top: 335;">
+					<Label class="summaryLabelLeft" text="Sea State:" />
+					<Label id="seaStateValue" class="summaryValueInfo" text="2-3 (moderate)" />
+				</View>
+				
+				<!-- Weather -->
+				<View class="summaryRowHorizontal" style="top: 373;">
+					<Label class="summaryLabelLeft" text="Weather:" />
+					<Label id="weatherValue" class="summaryValueInfo" text="Clear sky | wind 8-12 knots" />
+				</View>
+				
+				<!-- Current Speed -->
+				<View class="summaryRowHorizontal" style="top: 410;">
+					<Label class="summaryLabelLeft" text="Current Speed:" />
+					<Label id="currentSpeedValue" class="summaryValueInfo" text="0.3 m/s NE" />
+				</View>
+				
+			</View>
+			
+			<!-- Right Card: Mission Data -->
+			<View id="missionDataCard" class="card">
+				<Label class="cardTitle" text="MISSION DATA" />
+				
+				<!-- Mission Timeline Label -->
+				<Label class="timelineLabel" text="Mission Timeline:" />
+				
+				<!-- Timeline Chart -->
+				<ImageView id="timelineChart" class="chartImage" image="img/timeline_chart.png" />
+				
+				<!-- Mission Times List -->
+				<View class="missionTimesList">
+					<!-- Mission 1 -->
+					<View class="missionTimeRow" style="top: 0;">
+						<Label class="missionLabel" text="Mission 1:" />
+						<Label id="mission1Time" class="missionTime" text="00 : 58 : 34" />
+					</View>
+					
+					<!-- Mission 2 -->
+					<View class="missionTimeRow" style="top: 48;">
+						<Label class="missionLabel" text="Mission 2:" />
+						<Label id="mission2Time" class="missionTime" text="01 : 54 : 23" />
+					</View>
+					
+					<!-- Mission 3 -->
+					<View class="missionTimeRow" style="top: 97;">
+						<Label class="missionLabel" text="Mission 3:" />
+						<Label id="mission3Time" class="missionTime" text="01 : 27 : 54" />
+					</View>
+					
+					<!-- Mission 4 -->
+					<View class="missionTimeRow" style="top: 146;">
+						<Label class="missionLabel" text="Mission 4:" />
+						<Label id="mission4Time" class="missionTime" text="02 : 33 : 56" />
+					</View>
+				</View>
+				
+			</View>
+			
+		</View>
+		
+		<!-- Bottom Buttons -->
+		<View class="bottomButtonsContainer">
+			<Button id="desactivateButton" class="desactivateButton" title="DESACTIVATE" onClick="desactivateSystem" />
+			<Button id="newMissionButton" class="newMissionButton" title="NEW MISSION" onClick="startNewMission" />
+		</View>
+		
+	</Window>
+</Alloy>

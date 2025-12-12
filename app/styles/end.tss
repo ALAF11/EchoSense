@@ -1,0 +1,365 @@
+// ========== WINDOW & BACKGROUND ==========
+".endWindow": {
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
+}
+
+".background": {
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
+}
+
+// ========== HEADER ==========
+".header": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+	left: 40,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
+}
+
+"#logoSmall": {
+	width: 35,
+	height: 43  
+}
+
+".headerTitleRow": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 10,
+	top: 10
+}
+
+".headerTitleEcho": {
+	text: "Echo",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+".headerTitleSense": {
+	text: "Sense",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	left: 0,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// ========== NAVIGATION BAR ==========
+".navBar": {
+	width: 600,
+	height: 35,
+	layout: "horizontal",
+	borderRadius: 18,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	top: 22,
+	right: 40,
+	zIndex: 2,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
+}
+
+".navItem": {
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-Medium"
+	},
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 100,
+	height: Ti.UI.FILL,
+	touchEnabled: true,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
+}
+
+".navItemActive": {
+	color: "#FBA71E",
+	font: {
+		fontSize: 14,
+		fontFamily: "Poppins-SemiBold"
+	}
+}
+
+// ========== MAIN CONTENT ==========
+".mainContent": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 75,
+	zIndex: 1,
+	center: { x: "50%" }
+}
+
+// ========== CARD ==========
+".card": {
+	width: 360,
+	height: 455,
+	borderRadius: 20,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	layout: "composite",
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+"#missionSummaryCard": {
+	left: 0
+}
+
+"#missionDataCard": {
+	left: 25
+}
+
+// ========== CARD TITLE ==========
+".cardTitle": {
+	top: 15,
+	font: {
+		fontSize: 26,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FBA71E",
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
+}
+
+// ========== MISSION SUMMARY CARD ==========
+".successIcon": {
+	width: 60,
+	height: 60,
+	top: 65,
+	left: 30,
+	shadowColor: "rgba(119, 255, 133, 0.3)",
+	shadowOffset: { x: 6, y: 6 },
+	shadowRadius: 15
+}
+
+".summaryRow": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "vertical"
+}
+
+".summaryLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE
+}
+
+".summaryValue": {
+	color: "#2495A1",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 3
+}
+
+".summaryValueHighlight": {
+	color: "#2495A1",
+	font: {
+		fontSize: 22,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 3
+}
+
+".summaryValueCoords": {
+	color: "#2495A1",
+	font: {
+		fontSize: 20,
+		fontFamily: "Poppins-Regular"
+	},
+	textAlign: "center",
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	top: 3
+}
+
+".summaryRowHorizontal": {
+	width: 355,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	left: 5
+}
+
+".summaryLabelLeft": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	width: 145,
+	height: Ti.UI.SIZE,
+	left: 5
+}
+
+".summaryValueInfo": {
+	color: "#2495A1",
+	font: {
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
+	},
+	width: 200,
+	height: Ti.UI.SIZE,
+	left: 5
+}
+
+// ========== MISSION DATA CARD ==========
+".timelineLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	textAlign: "left",
+	top: 70,
+	left: 15
+}
+
+".chartImage": {
+	width: 360,
+	height: 134,
+	top: 100,
+	borderRadius: 10
+}
+
+".missionTimesList": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "composite",
+	top: 253
+}
+
+".missionTimeRow": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: "horizontal"
+}
+
+".missionLabel": {
+	color: "#FFFFFF",
+	font: {
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
+	},
+	width: 140,
+	height: Ti.UI.SIZE,
+	left: 15
+}
+
+".missionTime": {
+	color: "#2495A1",
+	font: {
+		fontSize: 22,
+		fontFamily: "Poppins-Regular"
+	},
+	width: 190,
+	height: Ti.UI.SIZE,
+	textAlign: "center",
+	left: 5
+}
+
+// ========== BOTTOM BUTTONS ==========
+".bottomButtonsContainer": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	bottom: 30,
+	zIndex: 2,
+	center: { x: "50%" }
+}
+
+".desactivateButton": {
+	width: 280,
+	height: 70,
+	borderRadius: 35,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 28,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+	title: "DESACTIVATE",
+	shadowColor: "rgba(0, 0, 0, 0.25)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+".desactivateButton[platform=ios]": {
+	shadowColor: "rgba(0, 0, 0, 0.25)",  
+	shadowOffset: { x: 0, y: 4 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 8
+}
+
+".newMissionButton": {
+	width: 280,
+	height: 70,
+	borderRadius: 35,
+	backgroundColor: "#FFFFFF",
+	font: {
+		fontSize: 28,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#2495A1",
+	textAlign: "center",
+	title: "NEW MISSION",
+	left: 20,
+	shadowColor: "rgba(0, 0, 0, 0.25)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
+}
+
+".newMissionButton[platform=ios]": {
+	shadowColor: "rgba(0, 0, 0, 0.25)",  
+	shadowOffset: { x: 0, y: 4 },        
+	shadowOpacity: 0.30,                 
+	shadowRadius: 8
+}
