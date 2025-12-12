@@ -1,382 +1,411 @@
-// ========== RECAPTURE SCREEN STYLES ==========
-
-// Window
+// ========== WINDOW & BACKGROUND ==========
 ".recaptureWindow": {
-	backgroundColor: '#0A2933',
-	fullscreen: false,
-	exitOnClose: false,
-	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT]
+	backgroundColor: "#0A2E3D",
+	orientationModes: [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT],
+	layout: "composite"
 }
 
-// Background
 ".background": {
-	image: 'img/background.png',
-	width: Ti.UI.FILL,
-	height: Ti.UI.FILL,
-	opacity: 0.5
+	width: 900,
+	height: 950,
+	backgroundImage: "img/background_echosense.png",
+	center: { x: "50%", y: "50%" },
+	opacity: 0.7,
+	zIndex: 0
 }
 
 // ========== HEADER ==========
 ".header": {
-	top: 15,
-	left: 20,
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'horizontal'
+	layout: "horizontal",
+	top: 15,
+	zIndex: 2,
+	left: 40,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 3 },
+	shadowRadius: 5
 }
 
 "#logoSmall": {
-	width: 60,
-	height: 60,
-	left: 0
+	width: 35,
+	height: 43  
 }
 
 ".headerTitleRow": {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'horizontal',
-	left: 10
+	layout: "horizontal",
+	left: 10,
+	top: 10
 }
 
 ".headerTitleEcho": {
-	text: 'Echo',
+	text: "Echo",
 	font: {
-		fontSize: 28,
-		fontWeight: 'bold'
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#2495A1',
+	color: "#2495A1",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 15
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
 }
 
 ".headerTitleSense": {
-	text: 'Sense',
+	text: "Sense",
 	font: {
-		fontSize: 28,
-		fontWeight: 'bold'
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#FFFFFF',
+	color: "#FFFFFF",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 15
+	left: 0,
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
 }
 
 // ========== NAVIGATION BAR ==========
 ".navBar": {
-	top: 20,
-	right: 20,
-	width: Ti.UI.SIZE,
-	height: 40,
-	layout: 'horizontal',
-	backgroundColor: 'rgba(36, 149, 161, 0.2)',
-	borderRadius: 20,
-	borderColor: '#2495A1',
-	borderWidth: 2
+	width: 600,
+	height: 35,
+	layout: "horizontal",
+	borderRadius: 18,
+	borderWidth: 2,
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	top: 22,
+	right: 40,
+	zIndex: 2,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
 }
 
 ".navItem": {
-	color: '#FFFFFF',
 	font: {
 		fontSize: 14,
-		fontWeight: 'normal'
+		fontFamily: "Poppins-Medium"
 	},
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
-	width: Ti.UI.SIZE,
+	color: "#FFFFFF",
+	textAlign: "center",
+	width: 100,
 	height: Ti.UI.FILL,
-	left: 15,
-	right: 15,
-	opacity: 0.7
+	touchEnabled: true,
+	verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 }
 
 ".navItemActive": {
-	color: '#FFA726',
-	opacity: 1.0,
+	color: "#FBA71E",
 	font: {
 		fontSize: 14,
-		fontWeight: 'bold'
+		fontFamily: "Poppins-SemiBold"
 	}
 }
 
 // ========== MAIN CONTENT ==========
 ".mainContent": {
-	top: 100,
-	left: 40,
-	right: 40,
-	bottom: 120,
-	layout: 'horizontal'
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 75,
+	zIndex: 1,
+	center: { x: "50%" }
 }
 
-// ========== CARDS ==========
+// ========== CARD ==========
 ".card": {
-	width: '48%',
-	height: Ti.UI.FILL,
-	backgroundColor: 'rgba(36, 116, 130, 0.15)',
-	borderRadius: 15,
-	borderColor: '#387482',
+	width: 360,
+	height: 270,
+	borderRadius: 20,
 	borderWidth: 2,
-	layout: 'vertical',
-	left: 10,
-	right: 10
+	borderColor: "#387482",
+	backgroundColor: "rgba(0, 23, 32, 0.3)",
+	layout: "composite",
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 4 },
+	shadowRadius: 8
 }
 
+"#resurfacingCard": {
+	left: 0
+}
+
+"#mapCard": {
+	left: 25
+}
+
+// ========== CARD TITLE ==========
 ".cardTitle": {
-	text: '',
+	top: 15,
 	font: {
-		fontSize: 22,
-		fontWeight: 'bold'
+		fontSize: 26,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#FFA726',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FBA71E",
+	textAlign: "center",
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
-	top: 20
+	shadowColor: "rgba(0, 0, 0, 0.5)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 4
 }
 
-// ========== RESURFACING CARD ==========
+// ========== RESURFACING CARD - COMPONENTS ==========
 ".infoSection": {
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
-	layout: 'vertical',
-	top: 25,
-	left: 40,
-	right: 40
+	layout: "vertical",
+	left: 20,
+	right: 20
+}
+
+"#timeSinceSection": {
+	top: 50
+}
+
+"#distanceSection": {
+	top: 115
+}
+
+"#driftSection": {
+	top: 165
 }
 
 ".infoLabel": {
 	font: {
-		fontSize: 18,
-		fontWeight: 'normal'
+		fontSize: 16,
+		fontFamily: "Poppins-Regular"
 	},
-	color: '#FFFFFF',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FFFFFF",
+	textAlign: "center",
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE
 }
 
 ".timeValue": {
 	font: {
-		fontSize: 32,
-		fontWeight: 'bold',
-		fontFamily: 'monospace'
+		fontSize: 28,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#2495A1',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#2495A1",
+	textAlign: "center",
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
-	top: 5
+	top: 2
 }
 
 ".dataValue": {
 	font: {
-		fontSize: 28,
-		fontWeight: 'bold',
-		fontFamily: 'monospace'
+		fontSize: 20,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#2495A1',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#2495A1",
+	textAlign: "center",
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
-	top: 5
+	top: 2
 }
 
 // Status Icons Container
 ".statusIconsContainer": {
-	width: Ti.UI.FILL,
+	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'horizontal',
-	top: 30,
-	bottom: 20,
-	left: 40,
-	right: 40
+	layout: "horizontal",
+	bottom: 15,
+	center: { x: "50%" }
 }
 
 ".statusGroup": {
-	width: '50%',
+	width: 175,
 	height: Ti.UI.SIZE,
-	layout: 'vertical'
+	layout: "vertical"
 }
 
 ".statusLabel": {
 	font: {
 		fontSize: 16,
-		fontWeight: 'normal'
+		fontFamily: "Poppins-Regular"
 	},
-	color: '#FFFFFF',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FFFFFF",
+	textAlign: "center",
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE
 }
 
 ".statusIcon": {
-	width: 60,
-	height: 60,
-	top: 10
+	width: 35,
+	height: 35,
+	top: 5,
+	center: { x: "50%" }
 }
 
 // ========== MAP CARD ==========
 ".mapContainer": {
-	width: Ti.UI.FILL,
-	height: Ti.UI.FILL,
-	top: 20,
-	left: 20,
-	right: 20,
-	bottom: 20,
-	backgroundColor: 'rgba(0, 0, 0, 0.3)',
-	borderRadius: 10,
-	borderColor: '#2495A1',
+	width: 340,
+	height: 235,
+	top: 45,
+	center: { x: "50%" },
+	backgroundColor: "rgba(15, 50, 65, 0.5)",
+	borderRadius: 15,
+	borderColor: "#2495A1",
 	borderWidth: 2
 }
 
 ".mapPlaceholder": {
 	width: Ti.UI.FILL,
 	height: Ti.UI.FILL,
-	borderRadius: 10
+	borderRadius: 15
 }
 
 ".mapOverlay": {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'vertical',
-	top: 20,
-	right: 30,
-	backgroundColor: 'rgba(36, 149, 161, 0.9)',
+	layout: "vertical",
+	top: 15,
+	right: 15,
+	backgroundColor: "rgba(36, 149, 161, 0.95)",
 	borderRadius: 10,
-	borderColor: '#2495A1',
-	borderWidth: 2
+	borderColor: "#2495A1",
+	borderWidth: 2,
+	zIndex: 10
 }
 
 ".mapOverlayUncertainty": {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'vertical',
-	top: 150,
-	left: '35%',
-	backgroundColor: 'rgba(36, 149, 161, 0.9)',
+	layout: "vertical",
+	center: { x: "50%", y: "50%" },
+	backgroundColor: "rgba(36, 149, 161, 0.95)",
 	borderRadius: 10,
-	borderColor: '#2495A1',
-	borderWidth: 2
+	borderColor: "#2495A1",
+	borderWidth: 2,
+	zIndex: 10
 }
 
 ".mapLabel": {
 	font: {
-		fontSize: 14,
-		fontWeight: 'bold'
+		fontSize: 12,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#FFFFFF',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FFFFFF",
+	textAlign: "center",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 10,
-	left: 15,
-	right: 15
+	top: 8,
+	left: 12,
+	right: 12
 }
 
 ".mapIconBoat": {
-	width: 40,
-	height: 40,
+	width: 30,
+	height: 30,
 	top: 5,
-	bottom: 10,
-	left: 15,
-	right: 15
+	bottom: 8,
+	center: { x: "50%" }
 }
 
 ".mapIconDevice": {
-	width: 40,
-	height: 40,
+	width: 30,
+	height: 30,
 	top: 5,
-	bottom: 10,
-	left: 15,
-	right: 15
+	bottom: 8,
+	center: { x: "50%" }
 }
 
 // Buoy Location Info (bottom of map)
 ".buoyLocationInfo": {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	layout: 'horizontal',
-	bottom: 20,
-	left: '25%',
-	backgroundColor: 'rgba(36, 149, 161, 0.95)',
+	layout: "horizontal",
+	bottom: 15,
+	center: { x: "50%" },
+	backgroundColor: "rgba(36, 149, 161, 0.95)",
 	borderRadius: 10,
-	borderColor: '#2495A1',
-	borderWidth: 2
+	borderColor: "#2495A1",
+	borderWidth: 2,
+	zIndex: 10
 }
 
 ".buoyLocationIcon": {
-	width: 30,
-	height: 30,
-	left: 15,
-	top: 8
+	width: 25,
+	height: 25,
+	left: 10,
+	top: 6
 }
 
 ".buoyLocationText": {
 	font: {
-		fontSize: 14,
-		fontWeight: 'bold'
+		fontSize: 12,
+		fontFamily: "Poppins-SemiBold"
 	},
-	color: '#FFFFFF',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FFFFFF",
+	textAlign: "center",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 8,
-	left: 10
+	top: 6,
+	left: 8
 }
 
 ".coordinatesText": {
 	font: {
-		fontSize: 12,
-		fontWeight: 'normal',
-		fontFamily: 'monospace'
+		fontSize: 10,
+		fontFamily: "Poppins-Regular"
 	},
-	color: '#FFFFFF',
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	color: "#FFFFFF",
+	textAlign: "center",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 10,
+	top: 8,
 	left: 5,
-	right: 15
+	right: 10
 }
 
 // ========== BOTTOM ACTION BUTTONS ==========
 ".bottomActionContainer": {
-	bottom: 30,
-	left: 40,
-	right: 40,
-	height: 60,
-	layout: 'horizontal',
-	width: Ti.UI.FILL
+	bottom: 20,
+	width: Ti.UI.SIZE,
+	height: 50,
+	layout: "horizontal",
+	center: { x: "50%" },
+	zIndex: 2
 }
 
 ".actionButton": {
 	font: {
 		fontSize: 18,
-		fontWeight: 'bold'
+		fontFamily: "Poppins-SemiBold"
 	},
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	borderRadius: 30,
-	height: 60,
-	borderWidth: 0
+	textAlign: "center",
+	borderRadius: 25,
+	height: 50,
+	borderWidth: 0,
+	shadowColor: "rgba(0, 0, 0, 0.4)",
+	shadowOffset: { x: 0, y: 2 },
+	shadowRadius: 5
 }
 
 ".recoveredButton": {
-	width: '32%',
-	backgroundColor: '#46D365',
-	color: '#FFFFFF',
+	width: 220,
+	backgroundColor: "#46D365",
+	color: "#FFFFFF",
 	left: 0
 }
 
 ".backButton": {
-	width: '32%',
-	backgroundColor: '#FFFFFF',
-	color: '#2495A1',
-	left: '2%'
+	width: 180,
+	backgroundColor: "#FFFFFF",
+	color: "#2495A1",
+	left: 15
 }
 
 ".lostButton": {
-	width: '32%',
-	backgroundColor: '#E74C3C',
-	color: '#FFFFFF',
-	left: '2%'
+	width: 220,
+	backgroundColor: "#E74C3C",
+	color: "#FFFFFF",
+	left: 15
 }

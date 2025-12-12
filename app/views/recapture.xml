@@ -31,19 +31,19 @@
 				<Label class="cardTitle" text="RESURFACING &amp; TIMERS" />
 				
 				<!-- Time Since Resurfacing -->
-				<View class="infoSection">
+				<View id="timeSinceSection" class="infoSection">
 					<Label class="infoLabel" text="Time since resurfacing:" />
 					<Label id="timeSinceResurfacing" class="timeValue" text="00:00:00" />
 				</View>
 				
 				<!-- Distance & Bearing to Buoy -->
-				<View class="infoSection">
+				<View id="distanceSection" class="infoSection">
 					<Label class="infoLabel" text="Distance &amp; Bearing to buoy:" />
 					<Label id="distanceBearing" class="dataValue" text="0 m | 000°" />
 				</View>
 				
 				<!-- Target Drift -->
-				<View class="infoSection">
+				<View id="driftSection" class="infoSection">
 					<Label class="infoLabel" text="Target Drift:" />
 					<Label id="targetDrift" class="dataValue" text="0.0 m/s | 000°" />
 				</View>
