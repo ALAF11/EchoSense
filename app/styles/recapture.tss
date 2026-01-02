@@ -169,11 +169,11 @@
 }
 
 "#distanceSection": {
-	top: 115
+	top: 100
 }
 
 "#driftSection": {
-	top: 165
+	top: 155
 }
 
 ".infoLabel": {
@@ -189,8 +189,8 @@
 
 ".timeValue": {
 	font: {
-		fontSize: 28,
-		fontFamily: "Poppins-SemiBold"
+		fontSize: 20,
+		fontFamily: "Poppins-Regular"
 	},
 	color: "#2495A1",
 	textAlign: "center",
@@ -201,8 +201,8 @@
 
 ".dataValue": {
 	font: {
-		fontSize: 20,
-		fontFamily: "Poppins-SemiBold"
+		fontSize: 18,
+		fontFamily: "Poppins-Regular"
 	},
 	color: "#2495A1",
 	textAlign: "center",
@@ -216,7 +216,7 @@
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	layout: "horizontal",
-	bottom: 15,
+	bottom: 5,
 	center: { x: "50%" }
 }
 
@@ -240,7 +240,7 @@
 ".statusIcon": {
 	width: 35,
 	height: 35,
-	top: 5,
+	top: 2,
 	center: { x: "50%" }
 }
 

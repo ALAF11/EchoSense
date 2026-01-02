@@ -10,3 +10,4 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 Alloy.Globals.currentFrequency = 0;
+const isDebug = Ti.App.Properties.getBool('app.debug', false);

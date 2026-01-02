@@ -13,5 +13,7 @@ function onStartClick(e) {
 	
 }
 
+const isDebug = Ti.App.Properties.getBool('app.debug', false);
+
 // Open the window
 $.index.open();
