@@ -248,163 +248,141 @@
 ".mapContainer": {
 	width: 340,
 	height: 235,
-	top: 45,
+	top: 40,
 	center: { x: "50%" },
-	backgroundColor: "rgba(15, 50, 65, 0.5)",
-	borderRadius: 15,
-	borderColor: "#2495A1",
-	borderWidth: 2
 }
 
 ".mapPlaceholder": {
-	width: Ti.UI.FILL,
-	height: Ti.UI.FILL,
+	width: 310,
+	height: 200,
 	borderRadius: 15
 }
 
-".mapOverlay": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	layout: "vertical",
-	top: 15,
-	right: 15,
-	backgroundColor: "rgba(36, 149, 161, 0.95)",
-	borderRadius: 10,
-	borderColor: "#2495A1",
-	borderWidth: 2,
-	zIndex: 10
-}
-
-".mapOverlayUncertainty": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	layout: "vertical",
-	center: { x: "50%", y: "50%" },
-	backgroundColor: "rgba(36, 149, 161, 0.95)",
-	borderRadius: 10,
-	borderColor: "#2495A1",
-	borderWidth: 2,
-	zIndex: 10
-}
-
-".mapLabel": {
+// Boat Position - Top Right
+".mapLabelBoat": {
 	font: {
-		fontSize: 12,
+		fontSize: 14,
 		fontFamily: "Poppins-SemiBold"
 	},
 	color: "#FFFFFF",
 	textAlign: "center",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 8,
-	left: 12,
-	right: 12
+	top: 45,
+	right: 180,
+	zIndex: 10,
 }
 
 ".mapIconBoat": {
-	width: 30,
-	height: 30,
-	top: 5,
-	bottom: 8,
-	center: { x: "50%" }
-}
-
-".mapIconDevice": {
-	width: 30,
-	height: 30,
-	top: 5,
-	bottom: 8,
-	center: { x: "50%" }
-}
-
-// Buoy Location Info (bottom of map)
-".buoyLocationInfo": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	layout: "horizontal",
-	bottom: 15,
-	center: { x: "50%" },
-	backgroundColor: "rgba(36, 149, 161, 0.95)",
-	borderRadius: 10,
-	borderColor: "#2495A1",
-	borderWidth: 2,
+	width: 25,
+	height: 25,
+	top: 40,
+	right: 150,
 	zIndex: 10
 }
 
-".buoyLocationIcon": {
-	width: 25,
-	height: 25,
-	left: 10,
-	top: 6
+// Uncertainty Area - Center
+".uncertaintyAreaPolygon": {
+	width: 150,         
+	height: 90,
+	center: { x: "50%", y: "50%" },  
+	opacity: 0.4,       
+	zIndex: 5           
 }
 
-".buoyLocationText": {
+".mapLabelUncertainty": {
 	font: {
-		fontSize: 12,
+		fontSize: 14,
 		fontFamily: "Poppins-SemiBold"
 	},
 	color: "#FFFFFF",
 	textAlign: "center",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 6,
-	left: 8
+	center: { x: "48%", y: "50%" },
+	zIndex: 10,
+}
+
+".mapIconUncertainty": {
+	width: 30,
+	height: 30,
+	center: { x: "50%", y: "60%" },
+	zIndex: 10
+}
+
+// Buoy Location - Bottom
+".buoyLocationIcon": {
+	width: 25,
+	height: 25,
+	bottom: 25,
+	left: 30,
+	zIndex: 10
+}
+
+".buoyLocationLabel": {
+	font: {
+		fontSize: 12,
+		fontFamily: "Poppins-SemiBold"
+	},
+	color: "#FFFFFF",
+	textAlign: "left",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	bottom: 25,
+	left: 60,
+	zIndex: 10,
 }
 
 ".coordinatesText": {
 	font: {
-		fontSize: 10,
+		fontSize: 11,
 		fontFamily: "Poppins-Regular"
 	},
 	color: "#FFFFFF",
-	textAlign: "center",
+	textAlign: "left",
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	top: 8,
-	left: 5,
-	right: 10
+	bottom: 26,
+	right: 60,
+	zIndex: 10,
 }
 
 // ========== BOTTOM ACTION BUTTONS ==========
 ".bottomActionContainer": {
-	bottom: 20,
 	width: Ti.UI.SIZE,
-	height: 50,
+	height: Ti.UI.SIZE,
 	layout: "horizontal",
-	center: { x: "50%" },
-	zIndex: 2
+	bottom: 12,
+	zIndex: 2,
+	center: { x: "50%" }
 }
 
 ".actionButton": {
+	height: 35,
+	borderRadius: 17,
 	font: {
-		fontSize: 18,
+		fontSize: 17,
 		fontFamily: "Poppins-SemiBold"
 	},
-	textAlign: "center",
-	borderRadius: 25,
-	height: 50,
-	borderWidth: 0,
-	shadowColor: "rgba(0, 0, 0, 0.4)",
-	shadowOffset: { x: 0, y: 2 },
-	shadowRadius: 5
+	textAlign: "center"
 }
 
 ".recoveredButton": {
-	width: 220,
+	width: 210,
 	backgroundColor: "#46D365",
 	color: "#FFFFFF",
 	left: 0
 }
 
 ".backButton": {
-	width: 180,
+	width: 100,
 	backgroundColor: "#FFFFFF",
 	color: "#2495A1",
 	left: 15
 }
 
 ".lostButton": {
-	width: 220,
+	width: 180,
 	backgroundColor: "#E74C3C",
 	color: "#FFFFFF",
 	left: 15

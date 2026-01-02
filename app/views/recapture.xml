@@ -70,26 +70,22 @@
 				
 				<!-- Map Container -->
 				<View id="mapContainer" class="mapContainer">
-					<!-- Placeholder for map - in production this would be a real map view -->
-					<ImageView id="mapPlaceholder" class="mapPlaceholder" image="img/map_placeholder.png" />
+					<!-- Placeholder for map -->
+					<ImageView id="mapPlaceholder" class="mapPlaceholder" image="img/map.jpg" />
 					
-					<!-- Map Overlay Information -->
-					<View class="mapOverlay">
-						<Label class="mapLabel" text="BOAT POSITION" />
-						<ImageView class="mapIconBoat" image="img/icon_boat.png" />
-					</View>
+					<!-- Boat Position - Top Right -->
+					<Label class="mapLabelBoat" text="BOAT POSITION" />
+					<ImageView class="mapIconBoat" image="img/icon_boat.png" />
 					
-					<View class="mapOverlayUncertainty">
-						<Label class="mapLabel" text="UNCERTAINTY AREA" />
-						<ImageView class="mapIconDevice" image="img/icon_device.png" />
-					</View>
+					<!-- Uncertainty Area - Center -->
+					<ImageView class="uncertaintyAreaPolygon" image="img/icon_area.png" />
+					<Label class="mapLabelUncertainty" text="UNCERTAINTY AREA" />
+					<ImageView class="mapIconUncertainty" image="img/icon_buoy.png" />
 					
-					<!-- Buoy Location Info -->
-					<View class="buoyLocationInfo">
-						<ImageView class="buoyLocationIcon" image="img/icon_buoy_location.png" />
-						<Label id="buoyLocation" class="buoyLocationText" text="BUOY LOCATION" />
-						<Label id="buoyCoordinates" class="coordinatesText" text="N 00.0000, W 000.0000" />
-					</View>
+					<!-- Buoy Location - Bottom -->
+					<ImageView class="buoyLocationIcon" image="img/icon_buoy.png" />
+					<Label class="buoyLocationLabel" text="BUOY LOCATION" />
+					<Label id="buoyCoordinates" class="coordinatesText" text="N 00.0000, W 000.0000" />
 				</View>
 			</View>
 			

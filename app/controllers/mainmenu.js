@@ -69,14 +69,3 @@ function navigateToSummary(e) {
 	alert('Navigating to: Summary');
 }
 
-// Open the Main Menu window
-$.mainmenu.open();
-
-// Export functions for external access if needed
-exports.backToHome = backToHome;
-exports.navigateToStatus = navigateToStatus;
-exports.navigateToFrequency = navigateToFrequency;
-exports.navigateToTrigger = navigateToTrigger;
-exports.navigateToMission = navigateToMission;
-exports.navigateToRecapture = navigateToRecapture;
-exports.navigateToSummary = navigateToSummary;

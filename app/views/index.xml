@@ -1,7 +1,7 @@
 <Alloy>
 	<Window class="mainWindow">
 		<!-- Background Image -->
-		<View class="background" />
+		<View class="background"></View>
 		
 		<!-- Main Content Container (Centered) -->
 		<View class="centerContainer">

@@ -6,6 +6,7 @@ function onStartClick(e) {
 	// Close current window
 	$.index.close();
 	
+	
 	// Navigate to Main Menu
 	var mainMenuWindow = Alloy.createController('mainmenu').getView();
 	mainMenuWindow.open();
@@ -14,6 +15,3 @@ function onStartClick(e) {
 
 // Open the window
 $.index.open();
-
-// Export function
-exports.onStartClick = onStartClick;
