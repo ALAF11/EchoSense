@@ -1,28 +1,8 @@
 // Controller for Recapture Screen
 
 // ========== STATE VARIABLES ==========
-var resurfaceStartTime = null;
 var timeSinceResurfaceTimer = null;
-
-// Device and buoy state
-var currentBuoyStatus = 'on'; // off, on, error, transmitting
-var currentDeviceStatus = 'idle'; // offline, idle, descending, ascending
-
-// Location data
-var buoyLatitude = 54.0822; // Example coordinates (from your screenshot)
-var buoyLongitude = -118.2437;
-var boatLatitude = 54.1000; // Example boat position
-var boatLongitude = -118.2000;
-
-// Drift and distance data
-var distanceToBuoy = 420; // meters
-var bearingToBuoy = 72; // degrees
-var driftSpeed = 0.6; // m/s
-var driftDirection = 105; // degrees
-
-// Mission state
-var deviceRecovered = false;
-var deviceLost = false;
+var driftSimulationTimer = null;
 
 // Update interval
 var UPDATE_INTERVAL = 1000; // 1 second
@@ -31,59 +11,48 @@ var UPDATE_INTERVAL = 1000; // 1 second
 function initializeScreen() {
 	Ti.API.info('Recapture screen loaded - initializing');
 	
-	// Set resurface start time (would come from mission data)
-	if (!resurfaceStartTime) {
-		resurfaceStartTime = new Date();
-	}
-	
-	// Update all displays
+	// Update all displays from global state
 	updateTimeSinceResurfacing();
 	updateDistanceAndBearing();
 	updateTargetDrift();
 	updateBuoyLocation();
 	updateStatusIcons();
 	
-	// Start the timer for time since resurfacing
+	// Start the timer for time since resurfacing (UI only)
 	startTimeSinceResurfaceTimer();
 	
 	// Simulate drift updates (in production, this would come from GPS/sensors)
 	startDriftSimulation();
+	
+	// Listen for global mission state updates
+	Ti.App.addEventListener('mission:stateUpdated', onMissionStateUpdated);
+}
+
+// ========== EVENT HANDLERS FOR GLOBAL STATE ==========
+function onMissionStateUpdated() {
+	// Update UI when global state changes
+	updateDistanceAndBearing();
+	updateTargetDrift();
+	updateStatusIcons();
 }
 
 // ========== DISPLAY UPDATES ==========
 function updateTimeSinceResurfacing() {
-	if (!resurfaceStartTime) {
-		$.timeSinceResurfacing.text = '00:00:00';
-		return;
-	}
-	
-	var now = new Date();
-	var elapsed = Math.floor((now - resurfaceStartTime) / 1000); // seconds
-	
-	var hours = Math.floor(elapsed / 3600);
-	var minutes = Math.floor((elapsed % 3600) / 60);
-	var seconds = elapsed % 60;
-	
-	// Format as HH:MM:SS
-	var timeString = 
-		(hours < 10 ? '0' : '') + hours + ':' +
-		(minutes < 10 ? '0' : '') + minutes + ':' +
-		(seconds < 10 ? '0' : '') + seconds;
-	
-	$.timeSinceResurfacing.text = timeString;
+	var elapsed = Alloy.Globals.getTimeSinceResurfacing();
+	$.timeSinceResurfacing.text = Alloy.Globals.formatTime(elapsed);
 	$.timeSinceResurfacing.color = '#2495A1';
 }
 
 function updateDistanceAndBearing() {
-	var distanceStr = Math.round(distanceToBuoy) + ' m';
-	var bearingStr = (bearingToBuoy < 100 ? '0' : '') + Math.round(bearingToBuoy) + '°';
+	var distanceStr = Math.round(Alloy.Globals.distanceToBuoy) + ' m';
+	var bearingStr = (Alloy.Globals.bearingToBuoy < 100 ? '0' : '') + Math.round(Alloy.Globals.bearingToBuoy) + '°';
 	
 	$.distanceBearing.text = distanceStr + ' | ' + bearingStr;
 	
 	// Color based on distance
-	if (distanceToBuoy < 100) {
+	if (Alloy.Globals.distanceToBuoy < 100) {
 		$.distanceBearing.color = '#46D365'; // Green - close
-	} else if (distanceToBuoy < 300) {
+	} else if (Alloy.Globals.distanceToBuoy < 300) {
 		$.distanceBearing.color = '#FFA726'; // Orange - medium
 	} else {
 		$.distanceBearing.color = '#2495A1'; // Blue - far
@@ -91,8 +60,8 @@ function updateDistanceAndBearing() {
 }
 
 function updateTargetDrift() {
-	var speedStr = driftSpeed.toFixed(1) + ' m/s';
-	var directionStr = (driftDirection < 100 ? '0' : '') + Math.round(driftDirection) + '°';
+	var speedStr = Alloy.Globals.driftSpeed.toFixed(1) + ' m/s';
+	var directionStr = (Alloy.Globals.driftDirection < 100 ? '0' : '') + Math.round(Alloy.Globals.driftDirection) + '°';
 	
 	$.targetDrift.text = speedStr + ' | ' + directionStr;
 	$.targetDrift.color = '#2495A1';
@@ -100,15 +69,15 @@ function updateTargetDrift() {
 
 function updateBuoyLocation() {
 	// Format coordinates with proper precision
-	var latStr = 'N ' + buoyLatitude.toFixed(4);
-	var lonStr = 'W ' + Math.abs(buoyLongitude).toFixed(4);
+	var latStr = 'N ' + Alloy.Globals.buoyLatitude.toFixed(4);
+	var lonStr = 'W ' + Math.abs(Alloy.Globals.buoyLongitude).toFixed(4);
 	
 	$.buoyCoordinates.text = latStr + ', ' + lonStr;
 }
 
 function updateStatusIcons() {
 	// Update buoy status icon
-	switch(currentBuoyStatus) {
+	switch(Alloy.Globals.buoyStatus) {
 		case 'off':
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -126,7 +95,7 @@ function updateStatusIcons() {
 	}
 	
 	// Update device status icon
-	switch(currentDeviceStatus) {
+	switch(Alloy.Globals.deviceStatus) {
 		case 'offline':
 			$.deviceStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -160,26 +129,24 @@ function stopTimeSinceResurfaceTimer() {
 }
 
 // ========== DRIFT SIMULATION ==========
-var driftSimulationTimer = null;
-
 function startDriftSimulation() {
 	// Simulate drift changes over time (in production, this would be GPS data)
 	driftSimulationTimer = setInterval(function() {
 		// Simulate slight changes in distance and bearing
-		distanceToBuoy += (Math.random() - 0.5) * 5; // Random change +/- 2.5m
-		distanceToBuoy = Math.max(0, distanceToBuoy); // Don't go negative
+		Alloy.Globals.distanceToBuoy += (Math.random() - 0.5) * 5; // Random change +/- 2.5m
+		Alloy.Globals.distanceToBuoy = Math.max(0, Alloy.Globals.distanceToBuoy); // Don't go negative
 		
-		bearingToBuoy += (Math.random() - 0.5) * 2; // Random change +/- 1 degree
-		if (bearingToBuoy < 0) bearingToBuoy += 360;
-		if (bearingToBuoy >= 360) bearingToBuoy -= 360;
+		Alloy.Globals.bearingToBuoy += (Math.random() - 0.5) * 2; // Random change +/- 1 degree
+		if (Alloy.Globals.bearingToBuoy < 0) Alloy.Globals.bearingToBuoy += 360;
+		if (Alloy.Globals.bearingToBuoy >= 360) Alloy.Globals.bearingToBuoy -= 360;
 		
 		// Update drift
-		driftSpeed += (Math.random() - 0.5) * 0.1; // Random change in drift speed
-		driftSpeed = Math.max(0, Math.min(2.0, driftSpeed)); // Keep between 0-2 m/s
+		Alloy.Globals.driftSpeed += (Math.random() - 0.5) * 0.1; // Random change in drift speed
+		Alloy.Globals.driftSpeed = Math.max(0, Math.min(2.0, Alloy.Globals.driftSpeed)); // Keep between 0-2 m/s
 		
-		driftDirection += (Math.random() - 0.5) * 5; // Random change in drift direction
-		if (driftDirection < 0) driftDirection += 360;
-		if (driftDirection >= 360) driftDirection -= 360;
+		Alloy.Globals.driftDirection += (Math.random() - 0.5) * 5; // Random change in drift direction
+		if (Alloy.Globals.driftDirection < 0) Alloy.Globals.driftDirection += 360;
+		if (Alloy.Globals.driftDirection >= 360) Alloy.Globals.driftDirection -= 360;
 		
 		// Update displays
 		updateDistanceAndBearing();
@@ -218,7 +185,8 @@ function markAsRecovered(e) {
 function performMarkAsRecovered() {
 	Ti.API.info('Device marked as recovered');
 	
-	deviceRecovered = true;
+	// End mission with recovered status
+	Alloy.Globals.endMission('recovered');
 	
 	// Stop all timers
 	stopTimeSinceResurfaceTimer();
@@ -262,14 +230,15 @@ function markAsLost(e) {
 function performMarkAsLost() {
 	Ti.API.info('Device marked as lost');
 	
-	deviceLost = true;
+	// End mission with lost status
+	Alloy.Globals.endMission('lost');
 	
 	// Stop all timers
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
 	
 	// Update device status
-	currentDeviceStatus = 'offline';
+	Alloy.Globals.deviceStatus = 'offline';
 	updateStatusIcons();
 	
 	// Show confirmation message
@@ -295,6 +264,9 @@ function backToHome(e) {
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
 	
+	// Remove event listeners
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	
 	// Close current window
 	$.recaptureWindow.close();
 	
@@ -307,6 +279,7 @@ function navigateToStatus(e) {
 	Ti.API.info('Navigating to Status screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	var statusWindow = Alloy.createController('status').getView();
@@ -317,6 +290,7 @@ function navigateToFrequency(e) {
 	Ti.API.info('Navigating to Frequency screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	var frequencyWindow = Alloy.createController('frequency').getView();
@@ -327,6 +301,7 @@ function navigateToTriggerCode(e) {
 	Ti.API.info('Navigating to Trigger Code screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	var triggerCodeWindow = Alloy.createController('triggercode').getView();
@@ -337,6 +312,7 @@ function navigateToMission(e) {
 	Ti.API.info('Navigating to Mission screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	var missionWindow = Alloy.createController('mission').getView();
@@ -347,13 +323,10 @@ function navigateToEnd(e) {
 	Ti.API.info('Navigating to End screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	// TODO: Create end controller when ready
-	// var endWindow = Alloy.createController('end').getView();
-	// endWindow.open();
-	
-	// Temporary alert
 	var tempAlert = Ti.UI.createAlertDialog({
 		title: 'Coming Soon',
 		message: 'End/Summary screen is not yet implemented.',
@@ -366,6 +339,7 @@ function goBack(e) {
 	Ti.API.info('Going back to Mission screen');
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 	$.recaptureWindow.close();
 	
 	var missionWindow = Alloy.createController('mission').getView();
@@ -384,50 +358,7 @@ $.recaptureWindow.addEventListener('close', function() {
 	// Clean up all timers
 	stopTimeSinceResurfaceTimer();
 	stopDriftSimulation();
+	
+	// Remove event listeners
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
 });
-
-// ========== EXPORTS ==========
-exports.setResurfaceTime = function(time) {
-	resurfaceStartTime = time;
-	updateTimeSinceResurfacing();
-};
-
-exports.setBuoyStatus = function(status) {
-	currentBuoyStatus = status;
-	updateStatusIcons();
-};
-
-exports.setDeviceStatus = function(status) {
-	currentDeviceStatus = status;
-	updateStatusIcons();
-};
-
-exports.setBuoyLocation = function(lat, lon) {
-	buoyLatitude = lat;
-	buoyLongitude = lon;
-	updateBuoyLocation();
-};
-
-exports.setBoatLocation = function(lat, lon) {
-	boatLatitude = lat;
-	boatLongitude = lon;
-};
-
-exports.setDistanceBearing = function(distance, bearing) {
-	distanceToBuoy = distance;
-	bearingToBuoy = bearing;
-	updateDistanceAndBearing();
-};
-
-exports.setDrift = function(speed, direction) {
-	driftSpeed = speed;
-	driftDirection = direction;
-	updateTargetDrift();
-};
-
-exports.getRecoveryStatus = function() {
-	return {
-		recovered: deviceRecovered,
-		lost: deviceLost
-	};
-};

@@ -1,20 +1,8 @@
 // Controller for Trigger Code Screen
 
-// Variables to track trigger code and test state
-var selectedCode = null; // Will be 'A', 'B', or 'C'
+// Variables to track test state
 var isTestingCode = false;
 var testTimer = null;
-
-// Import buoy and device status from previous screens
-var currentBuoyStatus = 'on'; // Assuming buoy is active when coming from Frequency screen
-var currentDeviceStatus = 'idle'; // Default device status
-
-// Trigger codes definitions (Morse code)
-var triggerCodes = {
-	A: '-.-.',
-	B: '-...-',
-	C: '----.'
-};
 
 // Back to Main Menu
 function backToHome(e) {
@@ -32,7 +20,7 @@ function backToHome(e) {
 function initializeScreen() {
 	Ti.API.info('Trigger Code screen loaded - initializing');
 	
-	// Update status icons based on current state
+	// Update status icons based on global state
 	updateStatusIcons();
 	
 	// Show "Click to start the test" message initially
@@ -43,8 +31,20 @@ function initializeScreen() {
 	$.waveformImage.visible = false;
 	$.codeDetectedLabel.visible = false;
 	
-	// No code selected initially - all codes in default state
-	resetCodeSelection();
+	// Restore code selection from global state
+	if (Alloy.Globals.selectedTriggerCode) {
+		updateCodeSelection();
+		
+		// If code was already tested, show the result
+		if (Alloy.Globals.triggerCodeTested) {
+			$.codeDetectedLabel.visible = true;
+			$.codeDetectedLabel.text = 'CODE DETECTED!';
+			$.codeDetectedLabel.color = '#46D365';
+			$.clickToStartLabel.visible = false;
+		}
+	} else {
+		resetCodeSelection();
+	}
 }
 
 // ========== CODE SELECTION ==========
@@ -55,24 +55,27 @@ function selectCode(e) {
 	var containerId = e.source.id;
 	
 	if (containerId === 'codeAContainer') {
-		selectedCode = 'A';
+		Alloy.Globals.selectedTriggerCode = 'A';
 	} else if (containerId === 'codeBContainer') {
-		selectedCode = 'B';
+		Alloy.Globals.selectedTriggerCode = 'B';
 	} else if (containerId === 'codeCContainer') {
-		selectedCode = 'C';
+		Alloy.Globals.selectedTriggerCode = 'C';
 	} else {
 		// If clicked on child element, get parent container
 		var parent = e.source.parent;
 		if (parent && parent.id === 'codeAContainer') {
-			selectedCode = 'A';
+			Alloy.Globals.selectedTriggerCode = 'A';
 		} else if (parent && parent.id === 'codeBContainer') {
-			selectedCode = 'B';
+			Alloy.Globals.selectedTriggerCode = 'B';
 		} else if (parent && parent.id === 'codeCContainer') {
-			selectedCode = 'C';
+			Alloy.Globals.selectedTriggerCode = 'C';
 		}
 	}
 	
-	Ti.API.info('Selected code: ' + selectedCode);
+	Ti.API.info('Selected code: ' + Alloy.Globals.selectedTriggerCode);
+	
+	// Mark trigger code as not tested when selection changes
+	Alloy.Globals.triggerCodeTested = false;
 	
 	// Update UI to show selection
 	updateCodeSelection();
@@ -96,7 +99,7 @@ function updateCodeSelection() {
 	$.codeCContainer.borderWidth = 2;
 	
 	// Highlight selected code
-	switch(selectedCode) {
+	switch(Alloy.Globals.selectedTriggerCode) {
 		case 'A':
 			$.codeAContainer.backgroundColor = 'rgba(56, 116, 130, 0.4)';
 			$.codeAContainer.borderColor = '#46D365';
@@ -131,8 +134,8 @@ function resetCodeSelection() {
 
 // ========== STATUS ICONS ==========
 function updateStatusIcons() {
-	// Update buoy status icon based on current state
-	switch(currentBuoyStatus) {
+	// Update buoy status icon based on global state
+	switch(Alloy.Globals.buoyStatus) {
 		case 'off':
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -149,8 +152,8 @@ function updateStatusIcons() {
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 	}
 	
-	// Update device status icon based on current state
-	switch(currentDeviceStatus) {
+	// Update device status icon based on global state
+	switch(Alloy.Globals.deviceStatus) {
 		case 'offline':
 			$.deviceStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -179,7 +182,7 @@ function testTriggerCode(e) {
 	}
 	
 	// Check if a code has been selected
-	if (!selectedCode) {
+	if (!Alloy.Globals.selectedTriggerCode) {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'No Code Selected',
 			message: 'Please select a trigger code before testing.',
@@ -190,7 +193,7 @@ function testTriggerCode(e) {
 	}
 	
 	// Check if buoy is active
-	if (currentBuoyStatus === 'off') {
+	if (Alloy.Globals.buoyStatus === 'off') {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before testing trigger code.',
@@ -200,7 +203,7 @@ function testTriggerCode(e) {
 		return;
 	}
 	
-	Ti.API.info('Testing code: ' + selectedCode + ' (' + triggerCodes[selectedCode] + ')');
+	Ti.API.info('Testing code: ' + Alloy.Globals.selectedTriggerCode + ' (' + Alloy.Globals.triggerCodes[Alloy.Globals.selectedTriggerCode] + ')');
 	
 	// Start testing
 	isTestingCode = true;
@@ -214,7 +217,7 @@ function testTriggerCode(e) {
 	$.testButton.opacity = 0.5;
 	
 	// Change buoy status to transmitting
-	currentBuoyStatus = 'transmitting';
+	Alloy.Globals.buoyStatus = 'transmitting';
 	updateStatusIcons();
 	
 	// Simulate acoustic signal test (in production, this would communicate with hardware)
@@ -240,6 +243,9 @@ function completeTriggerCodeTest(success) {
 	$.clickToStartLabel.visible = false;
 	
 	if (success) {
+		// Mark trigger code as tested in global state
+		Alloy.Globals.triggerCodeTested = true;
+		
 		// Show success message
 		$.codeDetectedLabel.visible = true;
 		$.codeDetectedLabel.text = 'CODE DETECTED!';
@@ -248,12 +254,15 @@ function completeTriggerCodeTest(success) {
 		// Optionally show confirmation dialog
 		var successDialog = Ti.UI.createAlertDialog({
 			title: 'Test Successful',
-			message: 'Trigger code ' + selectedCode + ' (' + triggerCodes[selectedCode] + ') was detected successfully.',
+			message: 'Trigger code ' + Alloy.Globals.selectedTriggerCode + ' (' + Alloy.Globals.triggerCodes[Alloy.Globals.selectedTriggerCode] + ') was detected successfully.',
 			ok: 'OK'
 		});
 		successDialog.show();
 		
 	} else {
+		// Mark trigger code as not tested
+		Alloy.Globals.triggerCodeTested = false;
+		
 		// Show failure message
 		$.codeDetectedLabel.visible = true;
 		$.codeDetectedLabel.text = 'NO CODE DETECTED';
@@ -261,24 +270,27 @@ function completeTriggerCodeTest(success) {
 		
 		var failureDialog = Ti.UI.createAlertDialog({
 			title: 'Test Failed',
-			message: 'Trigger code ' + selectedCode + ' was not detected. Please try again.',
+			message: 'Trigger code ' + Alloy.Globals.selectedTriggerCode + ' was not detected. Please try again.',
 			ok: 'OK'
 		});
 		failureDialog.show();
 	}
 	
-	// Hide result after 5 seconds and show "Click to start" again
-	setTimeout(function() {
-		$.codeDetectedLabel.visible = false;
-		$.clickToStartLabel.visible = true;
-	}, 5000);
+	// Hide failure result after 5 seconds and show "Click to start" again
+	if (!success) {
+		setTimeout(function() {
+			$.codeDetectedLabel.visible = false;
+			$.clickToStartLabel.visible = true;
+		}, 5000);
+	}
+	// Keep success result visible
 	
 	// Re-enable test button
 	$.testButton.enabled = true;
 	$.testButton.opacity = 1.0;
 	
 	// Return buoy status to on
-	currentBuoyStatus = 'on';
+	Alloy.Globals.buoyStatus = 'on';
 	updateStatusIcons();
 }
 
@@ -378,7 +390,7 @@ function goNext(e) {
 	Ti.API.info('Going to next screen (Mission)');
 	
 	// Validate that a code has been selected and tested
-	if (!selectedCode) {
+	if (!Alloy.Globals.selectedTriggerCode) {
 		var confirmDialog = Ti.UI.createAlertDialog({
 			title: 'No Code Selected',
 			message: 'It is recommended to select and test a trigger code before proceeding. Continue anyway?',
@@ -398,7 +410,7 @@ function goNext(e) {
 	}
 	
 	// Check if code was tested successfully
-	if (!$.codeDetectedLabel.visible || $.codeDetectedLabel.color !== '#46D365') {
+	if (!Alloy.Globals.triggerCodeTested) {
 		var confirmDialog = Ti.UI.createAlertDialog({
 			title: 'Code Not Tested',
 			message: 'It is recommended to test the trigger code before proceeding. Continue anyway?',
@@ -424,21 +436,9 @@ function goNext(e) {
 function proceedToNextScreen() {
 	// Close current window
 	$.triggerCodeWindow.close();
-
-	// Create Mission controller
-	var missionController = Alloy.createController('mission');
-	
-	// Pass selected trigger code to Mission screen
-	if (selectedCode) {
-		missionController.setTriggerCode(selectedCode);
-	}
-	
-	// Pass current buoy and device status
-	missionController.setBuoyStatus(currentBuoyStatus);
-	missionController.setDeviceStatus(currentDeviceStatus);
 	
 	// Open Mission window
-	var missionWindow = missionController.getView();
+	var missionWindow = Alloy.createController('mission').getView();
 	missionWindow.open();
 }
 
@@ -462,25 +462,3 @@ $.triggerCodeWindow.addEventListener('close', function() {
 	// Reset test state
 	isTestingCode = false;
 });
-
-// ========== EXPORTS ==========
-exports.setSelectedCode = function(code) {
-	if (code === 'A' || code === 'B' || code === 'C') {
-		selectedCode = code;
-		updateCodeSelection();
-	}
-};
-
-exports.setBuoyStatus = function(status) {
-	currentBuoyStatus = status;
-	updateStatusIcons();
-};
-
-exports.setDeviceStatus = function(status) {
-	currentDeviceStatus = status;
-	updateStatusIcons();
-};
-
-exports.getSelectedCode = function() {
-	return selectedCode;
-};

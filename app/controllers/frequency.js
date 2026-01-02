@@ -1,13 +1,8 @@
 // Controller for Frequency Screen
 
-// Variables to track frequency and test state
-var currentFrequency = 57; // Default frequency in kHz (25-75 kHz range)
+// Variables to track test state
 var isTestingFrequency = false;
 var testTimer = null;
-
-// Import buoy and device status from previous screen
-var currentBuoyStatus = 'on'; // Assuming buoy is active when coming from Status screen
-var currentDeviceStatus = 'idle'; // Default device status
 
 // Back to Main Menu
 function backToHome(e) {
@@ -25,10 +20,11 @@ function backToHome(e) {
 function initializeScreen() {
 	Ti.API.info('Frequency screen loaded - initializing');
 	
-	// Set initial frequency display
+	// Set initial frequency display from global state
+	$.frequencySlider.value = Alloy.Globals.currentFrequency;
 	updateFrequencyDisplay();
 	
-	// Update status icons based on current state
+	// Update status icons based on global state
 	updateStatusIcons();
 	
 	// Show "Click to start the test" message initially
@@ -37,6 +33,14 @@ function initializeScreen() {
 	// Hide test result labels initially
 	$.testingLabel.visible = false;
 	$.signalDetectedLabel.visible = false;
+	
+	// If frequency was already tested, show the result
+	if (Alloy.Globals.frequencyTested) {
+		$.signalDetectedLabel.visible = true;
+		$.signalDetectedLabel.text = 'SIGNAL DETECTED!';
+		$.signalDetectedLabel.color = '#46D365';
+		$.clickToStartLabel.visible = false;
+	}
 }
 
 // ========== FREQUENCY SLIDER ==========
@@ -44,23 +48,29 @@ function updateFrequency(e) {
 	// Get the slider value
 	var sliderValue = Math.round(e.value);
 	
-	// Update current frequency
+	// Update global frequency
 	Alloy.Globals.currentFrequency = sliderValue;
+	
+	// Mark as not tested when frequency changes
+	Alloy.Globals.frequencyTested = false;
 	
 	Ti.API.info('Frequency changed to: ' + Alloy.Globals.currentFrequency + ' kHz');
 	
 	// Update the display
 	updateFrequencyDisplay();
+	
+	// Reset test display since frequency changed
+	resetTestDisplay();
 }
 
 function updateFrequencyDisplay() {
-	$.currentFrequency.text =  Alloy.Globals.currentFrequency + ' kHz';
+	$.currentFrequency.text = Alloy.Globals.currentFrequency + ' kHz';
 }
 
 // ========== STATUS ICONS ==========
 function updateStatusIcons() {
-	// Update buoy status icon based on current state
-	switch(currentBuoyStatus) {
+	// Update buoy status icon based on global state
+	switch(Alloy.Globals.buoyStatus) {
 		case 'off':
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -77,8 +87,8 @@ function updateStatusIcons() {
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 	}
 	
-	// Update device status icon based on current state
-	switch(currentDeviceStatus) {
+	// Update device status icon based on global state
+	switch(Alloy.Globals.deviceStatus) {
 		case 'offline':
 			$.deviceStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -98,7 +108,7 @@ function updateStatusIcons() {
 
 // ========== FREQUENCY TEST ==========
 function testFrequency(e) {
-	Ti.API.info('Testing frequency: ' +  Alloy.Globals.currentFrequency + ' kHz');
+	Ti.API.info('Testing frequency: ' + Alloy.Globals.currentFrequency + ' kHz');
 	
 	// Prevent multiple simultaneous tests
 	if (isTestingFrequency) {
@@ -107,7 +117,7 @@ function testFrequency(e) {
 	}
 	
 	// Check if buoy is active
-	if (currentBuoyStatus === 'off') {
+	if (Alloy.Globals.buoyStatus === 'off') {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before testing frequency.',
@@ -121,14 +131,14 @@ function testFrequency(e) {
 	isTestingFrequency = true;
 	
 	// Update UI to show testing state
-	$.clickToStartLabel.visible = false;  // Hide "Click to start" message
+	$.clickToStartLabel.visible = false;
 	$.testingLabel.visible = true;
 	$.signalDetectedLabel.visible = false;
 	$.testButton.enabled = false;
 	$.testButton.opacity = 0.5;
 	
 	// Change buoy status to transmitting
-	currentBuoyStatus = 'transmitting';
+	Alloy.Globals.buoyStatus = 'transmitting';
 	updateStatusIcons();
 	
 	// Simulate acoustic signal test (in production, this would communicate with hardware)
@@ -150,9 +160,12 @@ function completeFrequencyTest(success) {
 	
 	// Update UI based on result
 	$.testingLabel.visible = false;
-	$.clickToStartLabel.visible = false;  // Keep "Click to start" hidden
+	$.clickToStartLabel.visible = false;
 	
 	if (success) {
+		// Mark frequency as tested in global state
+		Alloy.Globals.frequencyTested = true;
+		
 		// Show success message
 		$.signalDetectedLabel.visible = true;
 		$.signalDetectedLabel.text = 'SIGNAL DETECTED!';
@@ -161,12 +174,15 @@ function completeFrequencyTest(success) {
 		// Optionally show confirmation dialog
 		var successDialog = Ti.UI.createAlertDialog({
 			title: 'Test Successful',
-			message: 'Acoustic signal at ' +  Alloy.Globals.currentFrequency + ' kHz was detected successfully.',
+			message: 'Acoustic signal at ' + Alloy.Globals.currentFrequency + ' kHz was detected successfully.',
 			ok: 'OK'
 		});
 		successDialog.show();
 		
 	} else {
+		// Mark frequency as not tested
+		Alloy.Globals.frequencyTested = false;
+		
 		// Show failure message
 		$.signalDetectedLabel.visible = true;
 		$.signalDetectedLabel.text = 'NO SIGNAL DETECTED';
@@ -174,25 +190,47 @@ function completeFrequencyTest(success) {
 		
 		var failureDialog = Ti.UI.createAlertDialog({
 			title: 'Test Failed',
-			message: 'No acoustic signal detected at ' +  Alloy.Globals.currentFrequency + ' kHz. Please try again.',
+			message: 'No acoustic signal detected at ' + Alloy.Globals.currentFrequency + ' kHz. Please try again.',
 			ok: 'OK'
 		});
 		failureDialog.show();
 	}
 	
-	// Hide result after 5 seconds and show "Click to start" again
-	setTimeout(function() {
-		$.signalDetectedLabel.visible = false;
-		$.clickToStartLabel.visible = true;  // Show "Click to start" again
-	}, 5000);
+	// Hide failure result after 5 seconds and show "Click to start" again
+	if (!success) {
+		setTimeout(function() {
+			$.signalDetectedLabel.visible = false;
+			$.clickToStartLabel.visible = true;
+		}, 5000);
+	}
+	// Keep success result visible
 	
 	// Re-enable test button
 	$.testButton.enabled = true;
 	$.testButton.opacity = 1.0;
 	
 	// Return buoy status to on
-	currentBuoyStatus = 'on';
+	Alloy.Globals.buoyStatus = 'on';
 	updateStatusIcons();
+}
+
+function resetTestDisplay() {
+	// Reset test display to initial state
+	$.clickToStartLabel.visible = true;
+	$.testingLabel.visible = false;
+	$.signalDetectedLabel.visible = false;
+	
+	// Clear any active timers
+	if (testTimer) {
+		clearTimeout(testTimer);
+		testTimer = null;
+	}
+	
+	isTestingFrequency = false;
+	
+	// Re-enable test button
+	$.testButton.enabled = true;
+	$.testButton.opacity = 1.0;
 }
 
 // ========== NAVIGATION ==========
@@ -266,7 +304,7 @@ function goNext(e) {
 	Ti.API.info('Going to next screen (Trigger Code)');
 	
 	// Validate that frequency has been set and tested
-	if (!$.signalDetectedLabel.visible || $.signalDetectedLabel.color !== '#46D365') {
+	if (!Alloy.Globals.frequencyTested) {
 		var confirmDialog = Ti.UI.createAlertDialog({
 			title: 'Frequency Not Tested',
 			message: 'It is recommended to test the frequency before proceeding. Continue anyway?',
@@ -318,20 +356,3 @@ $.frequencyWindow.addEventListener('close', function() {
 	// Reset test state
 	isTestingFrequency = false;
 });
-
-// ========== EXPORTS ==========
-exports.setFrequency = function(frequency) {
-	 Alloy.Globals.currentFrequency = frequency;
-	$.frequencySlider.value = frequency;
-	updateFrequencyDisplay();
-};
-
-exports.setBuoyStatus = function(status) {
-	currentBuoyStatus = status;
-	updateStatusIcons();
-};
-
-exports.setDeviceStatus = function(status) {
-	currentDeviceStatus = status;
-	updateStatusIcons();
-};

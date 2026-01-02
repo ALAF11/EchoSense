@@ -1,35 +1,17 @@
 // Controller for Mission Screen
 
 // ========== MISSION STATE VARIABLES ==========
-var missionActive = false;
-var missionStartTime = null;
 var elapsedTimeTimer = null;
-var simulationTimer = null;
+var deviceResurfaceNotified = false;
 
-// Device state tracking
-var currentDepth = 0; // meters
-var currentDistance = 0; // meters from buoy
-var deviceStatus = 'idle'; // idle, descending, ascending
-var selectedTriggerCode = 'A'; // Default trigger code
-
-// Buoy status
-var currentBuoyStatus = 'on'; // off, on, error, transmitting
-
-// Mission parameters
-var MAX_DEPTH = 245; // Maximum depth in meters (from your screenshot)
-var ASCENT_THRESHOLD = 10; // When device is less than 10m, it goes to idle
-var DESCENT_RATE = 1.0; // meters per second
-var ASCENT_RATE = 0.8; // meters per second
-var UPDATE_INTERVAL = 1000; // Update every 1 second
-
-// Acoustic trigger state
-var acousticTriggerActivated = false;
+// Update interval
+var UPDATE_INTERVAL = 1000; // 1 second
 
 // ========== INITIALIZATION ==========
 function initializeScreen() {
 	Ti.API.info('Mission screen loaded - initializing');
 	
-	// Update UI displays
+	// Update UI displays from global state
 	updateDepthDisplay();
 	updateDistanceDisplay();
 	updateElapsedTimeDisplay();
@@ -37,22 +19,51 @@ function initializeScreen() {
 	updateBuoyStatusIcon();
 	updateTriggerCodeDisplay();
 	
-	// Check if coming from previous screens with active mission
-	// In production, this would load saved state
+	// Update button state if acoustic trigger already activated
+	if (Alloy.Globals.acousticTriggerActivated) {
+		$.activateButton.enabled = false;
+		$.activateButton.opacity = 0.5;
+		$.activateButton.backgroundColor = '#46D365';
+		$.activateButton.color = '#ffffffff'; 
+		$.activateButton.title = 'ACTIVATED ACOUSTIC TRIGGER';
+	}
+	
+	// Start the elapsed time timer (UI only)
+	startElapsedTimeTimer();
+	
+	// Listen for global mission state updates
+	Ti.App.addEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.addEventListener('device:resurfaced', onDeviceResurfaced);
+}
+
+// ========== EVENT HANDLERS FOR GLOBAL STATE ==========
+function onMissionStateUpdated() {
+	// Update UI when global state changes
+	updateDepthDisplay();
+	updateDistanceDisplay();
+	updateDeviceStatusDisplay();
+}
+
+function onDeviceResurfaced() {
+	// Show notification only once
+	if (!deviceResurfaceNotified) {
+		deviceResurfaceNotified = true;
+		showRecaptureReadyNotification();
+	}
 }
 
 // ========== DISPLAY UPDATES ==========
 function updateDepthDisplay() {
-	if (currentDepth < 10) {
+	if (Alloy.Globals.currentDepth < 10) {
 		$.depthValue.text = '<10m';
 		$.depthValue.color = '#2495A1'; // Blue when near surface
 	} else {
-		$.depthValue.text = Math.round(currentDepth) + 'm';
+		$.depthValue.text = Math.round(Alloy.Globals.currentDepth) + 'm';
 		
 		// Color based on depth
-		if (currentDepth < 50) {
+		if (Alloy.Globals.currentDepth < 50) {
 			$.depthValue.color = '#2495A1'; // Blue
-		} else if (currentDepth < 150) {
+		} else if (Alloy.Globals.currentDepth < 150) {
 			$.depthValue.color = '#FFA726'; // Orange
 		} else {
 			$.depthValue.color = '#2495A1'; // Blue
@@ -61,12 +72,12 @@ function updateDepthDisplay() {
 }
 
 function updateDistanceDisplay() {
-	$.distanceValue.text = Math.round(currentDistance) + 'm';
+	$.distanceValue.text = Math.round(Alloy.Globals.currentDistance) + 'm';
 	
 	// Color based on distance
-	if (currentDistance < 100) {
+	if (Alloy.Globals.currentDistance < 100) {
 		$.distanceValue.color = '#2495A1'; // Blue
-	} else if (currentDistance < 300) {
+	} else if (Alloy.Globals.currentDistance < 300) {
 		$.distanceValue.color = '#FFA726'; // Orange
 	} else {
 		$.distanceValue.color = '#E74C3C'; // Red
@@ -74,29 +85,12 @@ function updateDistanceDisplay() {
 }
 
 function updateElapsedTimeDisplay() {
-	if (!missionStartTime) {
-		$.elapsedTimeValue.text = '00:00:00';
-		return;
-	}
-	
-	var now = new Date();
-	var elapsed = Math.floor((now - missionStartTime) / 1000); // seconds
-	
-	var hours = Math.floor(elapsed / 3600);
-	var minutes = Math.floor((elapsed % 3600) / 60);
-	var seconds = elapsed % 60;
-	
-	// Format as HH:MM:SS
-	var timeString = 
-		(hours < 10 ? '0' : '') + hours + ':' +
-		(minutes < 10 ? '0' : '') + minutes + ':' +
-		(seconds < 10 ? '0' : '') + seconds;
-	
-	$.elapsedTimeValue.text = timeString;
+	var elapsed = Alloy.Globals.getElapsedMissionTime();
+	$.elapsedTimeValue.text = Alloy.Globals.formatTime(elapsed);
 }
 
 function updateDeviceStatusDisplay() {
-	switch(deviceStatus) {
+	switch(Alloy.Globals.deviceStatus) {
 		case 'idle':
 			$.deviceStatusValue.text = 'IDLE';
 			$.deviceStatusValue.color = '#2495A1'; 
@@ -117,7 +111,7 @@ function updateDeviceStatusDisplay() {
 }
 
 function updateBuoyStatusIcon() {
-	switch(currentBuoyStatus) {
+	switch(Alloy.Globals.buoyStatus) {
 		case 'off':
 			$.buoyStatusIcon.image = '/img/icon_signal_off.png';
 			break;
@@ -136,97 +130,11 @@ function updateBuoyStatusIcon() {
 }
 
 function updateTriggerCodeDisplay() {
-	$.selectedCodeLabel.text = selectedTriggerCode;
-}
-
-// ========== MISSION SIMULATION ==========
-function startMissionSimulation() {
-	Ti.API.info('Starting mission simulation');
-	
-	missionActive = true;
-	missionStartTime = new Date();
-	
-	// Start with device descending
-	deviceStatus = 'descending';
-	currentDepth = 0;
-	currentDistance = 0;
-	
-	// Update initial display
-	updateDeviceStatusDisplay();
-	
-	// Start the elapsed time timer
-	startElapsedTimeTimer();
-	
-	// Start the simulation timer
-	simulationTimer = setInterval(function() {
-		updateMissionSimulation();
-	}, UPDATE_INTERVAL);
-}
-
-function updateMissionSimulation() {
-	if (!missionActive) {
-		return;
+	if (Alloy.Globals.selectedTriggerCode) {
+		$.selectedCodeLabel.text = Alloy.Globals.selectedTriggerCode;
+	} else {
+		$.selectedCodeLabel.text = '-';
 	}
-	
-	// Update based on device status
-	switch(deviceStatus) {
-		case 'descending':
-			// Increase depth
-			currentDepth += DESCENT_RATE;
-			
-			// Calculate distance from buoy (increases as device descends)
-			currentDistance = currentDepth * 1.3; // Approximate drift
-			
-			// Check if reached maximum depth
-			if (currentDepth >= MAX_DEPTH) {
-				currentDepth = MAX_DEPTH;
-				deviceStatus = 'idle';
-				Ti.API.info('Device reached maximum depth: ' + MAX_DEPTH + 'm');
-			}
-			break;
-			
-		case 'ascending':
-			// Decrease depth
-			currentDepth -= ASCENT_RATE;
-			
-			// Update distance (may increase initially due to currents)
-			currentDistance = currentDepth * 1.5;
-			
-			// Check if near surface
-			if (currentDepth <= ASCENT_THRESHOLD) {
-				currentDepth = Math.max(0, currentDepth);
-				deviceStatus = 'idle';
-				Ti.API.info('Device reached surface - ready for recapture');
-				
-				// Show success notification
-				showRecaptureReadyNotification();
-			}
-			break;
-			
-		case 'idle':
-			// Device is waiting (either at depth or at surface)
-			// No depth changes
-			break;
-	}
-	
-	// Update displays
-	updateDepthDisplay();
-	updateDistanceDisplay();
-	updateDeviceStatusDisplay();
-}
-
-function stopMissionSimulation() {
-	Ti.API.info('Stopping mission simulation');
-	
-	missionActive = false;
-	
-	// Clear timers
-	if (simulationTimer) {
-		clearInterval(simulationTimer);
-		simulationTimer = null;
-	}
-	
-	stopElapsedTimeTimer();
 }
 
 // ========== ELAPSED TIME TIMER ==========
@@ -249,27 +157,18 @@ function activateAcousticTrigger(e) {
 	Ti.API.info('Activating acoustic trigger');
 	
 	// Check if mission is active
-	if (!missionActive) {
-		// Start mission simulation for testing purposes
-		var confirmDialog = Ti.UI.createAlertDialog({
-			title: 'Start Mission?',
-			message: 'No active mission detected. Start a simulated mission for testing?',
-			buttonNames: ['Cancel', 'Start Mission'],
-			cancel: 0
+	if (!Alloy.Globals.missionActive) {
+		var alertDialog = Ti.UI.createAlertDialog({
+			title: 'Mission Not Active',
+			message: 'No active mission detected. Please activate the buoy first.',
+			ok: 'OK'
 		});
-		
-		confirmDialog.addEventListener('click', function(evt) {
-			if (evt.index === 1) {
-				startMissionSimulation();
-			}
-		});
-		
-		confirmDialog.show();
+		alertDialog.show();
 		return;
 	}
 	
 	// Check device status
-	if (deviceStatus !== 'descending' && deviceStatus !== 'idle') {
+	if (Alloy.Globals.deviceStatus !== 'descending' && Alloy.Globals.deviceStatus !== 'idle') {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Invalid State',
 			message: 'Acoustic trigger can only be activated when device is descending or at depth.',
@@ -279,10 +178,21 @@ function activateAcousticTrigger(e) {
 		return;
 	}
 	
+	// Check if already activated
+	if (Alloy.Globals.acousticTriggerActivated) {
+		var alertDialog = Ti.UI.createAlertDialog({
+			title: 'Already Activated',
+			message: 'Acoustic trigger has already been activated. Device is ascending.',
+			ok: 'OK'
+		});
+		alertDialog.show();
+		return;
+	}
+	
 	// Confirm activation
 	var confirmDialog = Ti.UI.createAlertDialog({
 		title: 'Activate Acoustic Trigger?',
-		message: 'This will send the trigger code "' + selectedTriggerCode + '" to initiate device ascent.',
+		message: 'This will send the trigger code "' + (Alloy.Globals.selectedTriggerCode || 'None') + '" to initiate device ascent.',
 		buttonNames: ['Cancel', 'Activate'],
 		cancel: 0
 	});
@@ -297,9 +207,7 @@ function activateAcousticTrigger(e) {
 }
 
 function performAcousticTrigger() {
-	Ti.API.info('Performing acoustic trigger with code: ' + selectedTriggerCode);
-	
-	acousticTriggerActivated = true;
+	Ti.API.info('Performing acoustic trigger with code: ' + Alloy.Globals.selectedTriggerCode);
 	
 	// Update button state
 	$.activateButton.enabled = false;
@@ -309,18 +217,19 @@ function performAcousticTrigger() {
 	$.activateButton.title = 'ACTIVATED ACOUSTIC TRIGGER';
 	
 	// Change buoy status to transmitting
-	currentBuoyStatus = 'transmitting';
+	Alloy.Globals.buoyStatus = 'transmitting';
 	updateBuoyStatusIcon();
 	
 	// Simulate acoustic transmission (in production, this would communicate with hardware)
 	setTimeout(function() {
 		// Transmission complete
-		currentBuoyStatus = 'on';
+		Alloy.Globals.buoyStatus = 'on';
 		updateBuoyStatusIcon();
 		
-		// Initiate ascent
-		if (deviceStatus === 'descending' || deviceStatus === 'idle') {
-			deviceStatus = 'ascending';
+		// Activate acoustic trigger using global function
+		var success = Alloy.Globals.activateAcousticTrigger();
+		
+		if (success) {
 			updateDeviceStatusDisplay();
 			
 			Ti.API.info('Device status changed to ascending');
@@ -359,12 +268,11 @@ function emergencyAbort(e) {
 function performEmergencyAbort() {
 	Ti.API.info('Performing emergency abort');
 	
-	// Stop all timers and simulation
-	stopMissionSimulation();
+	// Stop elapsed time timer
+	stopElapsedTimeTimer();
 	
-	// Reset states
-	deviceStatus = 'offline';
-	currentBuoyStatus = 'off';
+	// Reset global mission state (this stops global simulation)
+	Alloy.Globals.resetMissionState();
 	
 	// Update displays
 	updateDeviceStatusDisplay();
@@ -407,8 +315,12 @@ function showRecaptureReadyNotification() {
 function backToHome(e) {
 	Ti.API.info('Going back to Main Menu');
 	
-	// Stop any active timers
-	stopMissionSimulation();
+	// Stop elapsed time timer
+	stopElapsedTimeTimer();
+	
+	// Remove event listeners
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	
 	// Close current window
 	$.missionWindow.close();
@@ -420,7 +332,9 @@ function backToHome(e) {
 
 function navigateToStatus(e) {
 	Ti.API.info('Navigating to Status screen');
-	stopMissionSimulation();
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
 	var statusWindow = Alloy.createController('status').getView();
@@ -429,7 +343,9 @@ function navigateToStatus(e) {
 
 function navigateToFrequency(e) {
 	Ti.API.info('Navigating to Frequency screen');
-	stopMissionSimulation();
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
 	var frequencyWindow = Alloy.createController('frequency').getView();
@@ -438,7 +354,9 @@ function navigateToFrequency(e) {
 
 function navigateToTriggerCode(e) {
 	Ti.API.info('Navigating to Trigger Code screen');
-	stopMissionSimulation();
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
 	var triggerCodeWindow = Alloy.createController('triggercode').getView();
@@ -448,27 +366,37 @@ function navigateToTriggerCode(e) {
 function navigateToRecapture(e) {
 	Ti.API.info('Navigating to Recapture screen');
 	
-	// Don't stop simulation - pass state to Recapture screen
+	// Don't stop simulation - it continues in background
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
-	// TODO: Create recapture controller when ready
 	var recaptureWindow = Alloy.createController('recapture').getView();
 	recaptureWindow.open();
 }
 
 function navigateToEnd(e) {
 	Ti.API.info('Navigating to End screen');
-	stopMissionSimulation();
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
 	// TODO: Create end controller when ready
-	var endWindow = Alloy.createController('end').getView();
-	endWindow.open();
+	var tempAlert = Ti.UI.createAlertDialog({
+		title: 'Coming Soon',
+		message: 'End screen is not yet implemented.',
+		ok: 'OK'
+	});
+	tempAlert.show();
 }
 
 function goBack(e) {
 	Ti.API.info('Going back to Trigger Code screen');
-	stopMissionSimulation();
+	stopElapsedTimeTimer();
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
 	var triggerCodeWindow = Alloy.createController('triggercode').getView();
@@ -479,7 +407,8 @@ function goNext(e) {
 	Ti.API.info('Going to next screen (Recapture)');
 	
 	// Check if device is ready for recapture
-	if (deviceStatus === 'ascending' || (deviceStatus === 'idle' && currentDepth < ASCENT_THRESHOLD)) {
+	if (Alloy.Globals.deviceStatus === 'ascending' || 
+	    (Alloy.Globals.deviceStatus === 'idle' && Alloy.Globals.currentDepth < Alloy.Globals.ASCENT_THRESHOLD)) {
 		navigateToRecapture();
 	} else {
 		var confirmDialog = Ti.UI.createAlertDialog({
@@ -508,38 +437,13 @@ $.missionWindow.addEventListener('open', function() {
 $.missionWindow.addEventListener('close', function() {
 	Ti.API.info('Mission window closing - cleaning up');
 	
-	// Clean up all timers
-	stopMissionSimulation();
+	// Clean up timers
+	stopElapsedTimeTimer();
+	
+	// Remove event listeners
+	Ti.App.removeEventListener('mission:stateUpdated', onMissionStateUpdated);
+	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
+	
+	// Reset resurface notification flag
+	deviceResurfaceNotified = false;
 });
-
-// ========== EXPORTS ==========
-exports.setTriggerCode = function(code) {
-	selectedTriggerCode = code;
-	updateTriggerCodeDisplay();
-};
-
-exports.setBuoyStatus = function(status) {
-	currentBuoyStatus = status;
-	updateBuoyStatusIcon();
-};
-
-exports.setDeviceStatus = function(status) {
-	deviceStatus = status;
-	updateDeviceStatusDisplay();
-};
-
-exports.startMission = function() {
-	startMissionSimulation();
-};
-
-exports.getCurrentDepth = function() {
-	return currentDepth;
-};
-
-exports.getCurrentDistance = function() {
-	return currentDistance;
-};
-
-exports.getDeviceStatus = function() {
-	return deviceStatus;
-};

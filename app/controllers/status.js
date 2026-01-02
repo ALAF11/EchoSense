@@ -1,10 +1,5 @@
 // Controller for Status/Activate Screen
 
-// Variables to track current status
-var currentBuoyStatus = 'off'; // off, on, error, transmitting
-var currentDeviceStatus = 'offline'; // offline, idle, descending, ascending
-var isBuoyActive = false;
-
 // Back to Main Menu
 function backToHome(e) {
 	Ti.API.info('Going back to Main Menu');
@@ -21,11 +16,11 @@ function backToHome(e) {
 function toggleBuoyActivation(e) {
 	Ti.API.info('Toggle Buoy Activation');
 	
-	if (!isBuoyActive) {
-		// Activate the buoy
-		isBuoyActive = true;
-		currentBuoyStatus = 'on';
-		currentDeviceStatus = 'idle';
+	if (!Alloy.Globals.isBuoyActive) {
+		// Activate the buoy AND START THE MISSION
+		Alloy.Globals.isBuoyActive = true;
+		Alloy.Globals.buoyStatus = 'on';
+		Alloy.Globals.deviceStatus = 'idle';
 		
 		Ti.API.info('Buoy activated');
 		
@@ -33,6 +28,9 @@ function toggleBuoyActivation(e) {
 		updateBuoyStatusDisplay();
 		updateDeviceStatusDisplay();
 		updateActivateButton();
+		
+		// Start the mission immediately
+		Alloy.Globals.startMission();
 		
 		// Navigate to Frequency after 2 seconds
 		setTimeout(function() {
@@ -44,17 +42,21 @@ function toggleBuoyActivation(e) {
 		// Deactivate the buoy
 		var confirmDialog = Ti.UI.createAlertDialog({
 			title: 'Deactivate Buoy?',
-			message: 'Are you sure you want to turn off the buoy?',
+			message: 'Are you sure you want to turn off the buoy? This will stop the mission.',
 			buttonNames: ['Cancel', 'Deactivate'],
 			cancel: 0
 		});
 		
 		confirmDialog.addEventListener('click', function(evt) {
 			if (evt.index === 1) {
-				isBuoyActive = false;
-				currentBuoyStatus = 'off';
-				currentDeviceStatus = 'offline';
-				Ti.API.info('Buoy deactivated');
+				Alloy.Globals.isBuoyActive = false;
+				Alloy.Globals.buoyStatus = 'off';
+				Alloy.Globals.deviceStatus = 'offline';
+				
+				// Reset mission state
+				Alloy.Globals.resetMissionState();
+				
+				Ti.API.info('Buoy deactivated and mission reset');
 			}
 			updateBuoyStatusDisplay();
 			updateDeviceStatusDisplay();
@@ -68,7 +70,7 @@ function toggleBuoyActivation(e) {
 
 // Set Buoy Status (for manual status simulation - development only)
 function setBuoyStatus(e) {
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		Ti.API.warn('Cannot change status - Buoy is not active');
 		return;
 	}
@@ -77,22 +79,22 @@ function setBuoyStatus(e) {
 	
 	switch(statusId) {
 		case 'buoyOff':
-			currentBuoyStatus = 'off';
-			isBuoyActive = false;
-			currentDeviceStatus = 'offline';
+			Alloy.Globals.buoyStatus = 'off';
+			Alloy.Globals.isBuoyActive = false;
+			Alloy.Globals.deviceStatus = 'offline';
 			break;
 		case 'buoyOn':
-			currentBuoyStatus = 'on';
+			Alloy.Globals.buoyStatus = 'on';
 			break;
 		case 'buoyError':
-			currentBuoyStatus = 'error';
+			Alloy.Globals.buoyStatus = 'error';
 			break;
 		case 'buoyTransmitting':
-			currentBuoyStatus = 'transmitting';
+			Alloy.Globals.buoyStatus = 'transmitting';
 			break;
 	}
 	
-	Ti.API.info('Buoy status changed to: ' + currentBuoyStatus);
+	Ti.API.info('Buoy status changed to: ' + Alloy.Globals.buoyStatus);
 	updateBuoyStatusDisplay();
 	updateActivateButton();
 }
@@ -113,7 +115,7 @@ function updateBuoyStatusDisplay() {
 	$.buoyTransmitting.children[1].color = '#637B85';
 	
 	// Set active status
-	switch(currentBuoyStatus) {
+	switch(Alloy.Globals.buoyStatus) {
 		case 'off':
 			$.buoyOff.children[0].opacity = 1.0;
 			$.buoyOff.children[1].color = '#FFFFFF';
@@ -149,7 +151,7 @@ function updateDeviceStatusDisplay() {
 	$.deviceAscending.children[1].color = '#637B85';
 	
 	// Set active status
-	switch(currentDeviceStatus) {
+	switch(Alloy.Globals.deviceStatus) {
 		case 'offline':
 			$.deviceOffline.children[0].opacity = 1.0;
 			$.deviceOffline.children[1].color = '#FFFFFF';
@@ -171,7 +173,7 @@ function updateDeviceStatusDisplay() {
 
 // Update Activate Button
 function updateActivateButton() {
-	if (isBuoyActive) {
+	if (Alloy.Globals.isBuoyActive) {
 		$.activateButton.title = 'DEACTIVATE';
 		$.activateButton.backgroundColor = '#E74C3C';
 		$.activateButton.color = '#FFFFFF';
@@ -184,33 +186,24 @@ function updateActivateButton() {
 
 // Simulate Device Status Change (for testing purposes)
 function simulateDeviceStatusChange(newStatus) {
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		Ti.API.warn('Cannot change device status - Buoy is not active');
 		return;
 	}
 	
-	currentDeviceStatus = newStatus;
-	Ti.API.info('Device status changed to: ' + currentDeviceStatus);
+	Alloy.Globals.deviceStatus = newStatus;
+	Ti.API.info('Device status changed to: ' + Alloy.Globals.deviceStatus);
 	updateDeviceStatusDisplay();
 }
 
 // Navigate to Frequency Screen
 function navigateToFrequency() {
 	try {
-		// Create Frequency controller
-		var frequencyController = Alloy.createController('frequency');
-		
-		// Pass current status to Frequency screen
-		frequencyController.setBuoyStatus(currentBuoyStatus);
-		frequencyController.setDeviceStatus(currentDeviceStatus);
-		
-		// Get the window and open it
-		var frequencyWindow = frequencyController.getView();
-		
 		// Close current window
 		$.statusWindow.close();
 		
 		// Open Frequency window
+		var frequencyWindow = Alloy.createController('frequency').getView();
 		frequencyWindow.open();
 		
 		Ti.API.info('Successfully navigated to Frequency screen');
@@ -232,7 +225,7 @@ function navigateToTriggerCode(e) {
 	Ti.API.info('Navigating to Trigger Code screen from navbar');
 	
 	// Check if buoy is active before navigating
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before proceeding to other screens.',
@@ -244,23 +237,14 @@ function navigateToTriggerCode(e) {
 	
 	$.statusWindow.close();
 	
-	// TODO: Create triggercode controller when ready
-	// var triggerCodeWindow = Alloy.createController('triggercode').getView();
-	// triggerCodeWindow.open();
-	
-	// Temporary alert
-	var tempAlert = Ti.UI.createAlertDialog({
-		title: 'Coming Soon',
-		message: 'Trigger Code screen is not yet implemented.',
-		ok: 'OK'
-	});
-	tempAlert.show();
+	var triggerCodeWindow = Alloy.createController('triggercode').getView();
+	triggerCodeWindow.open();
 }
 
 function navigateToMission(e) {
 	Ti.API.info('Navigating to Mission screen from navbar');
 	
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before proceeding to other screens.',
@@ -271,7 +255,6 @@ function navigateToMission(e) {
 	}
 	
 	$.statusWindow.close();
-
 	
 	var missionWindow = Alloy.createController('mission').getView();
 	missionWindow.open();
@@ -280,7 +263,7 @@ function navigateToMission(e) {
 function navigateToRecapture(e) {
 	Ti.API.info('Navigating to Recapture screen from navbar');
 	
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before proceeding to other screens.',
@@ -292,23 +275,14 @@ function navigateToRecapture(e) {
 	
 	$.statusWindow.close();
 	
-	// TODO: Create recapture controller when ready
-	// var recaptureWindow = Alloy.createController('recapture').getView();
-	// recaptureWindow.open();
-	
-	// Temporary alert
-	var tempAlert = Ti.UI.createAlertDialog({
-		title: 'Coming Soon',
-		message: 'Recapture screen is not yet implemented.',
-		ok: 'OK'
-	});
-	tempAlert.show();
+	var recaptureWindow = Alloy.createController('recapture').getView();
+	recaptureWindow.open();
 }
 
 function navigateToEnd(e) {
 	Ti.API.info('Navigating to End screen from navbar');
 	
-	if (!isBuoyActive) {
+	if (!Alloy.Globals.isBuoyActive) {
 		var alertDialog = Ti.UI.createAlertDialog({
 			title: 'Buoy Not Active',
 			message: 'Please activate the buoy before proceeding to other screens.',
@@ -321,10 +295,6 @@ function navigateToEnd(e) {
 	$.statusWindow.close();
 	
 	// TODO: Create end controller when ready
-	// var endWindow = Alloy.createController('end').getView();
-	// endWindow.open();
-	
-	// Temporary alert
 	var tempAlert = Ti.UI.createAlertDialog({
 		title: 'Coming Soon',
 		message: 'End screen is not yet implemented.',
@@ -349,6 +319,3 @@ exports.navigateToTriggerCode = navigateToTriggerCode;
 exports.navigateToMission = navigateToMission;
 exports.navigateToRecapture = navigateToRecapture;
 exports.navigateToEnd = navigateToEnd;
-exports.getCurrentBuoyStatus = function() { return currentBuoyStatus; };
-exports.getCurrentDeviceStatus = function() { return currentDeviceStatus; };
-exports.isBuoyActive = function() { return isBuoyActive; };
