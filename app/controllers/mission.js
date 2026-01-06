@@ -383,13 +383,9 @@ function navigateToEnd(e) {
 	Ti.App.removeEventListener('device:resurfaced', onDeviceResurfaced);
 	$.missionWindow.close();
 	
-	// TODO: Create end controller when ready
-	var tempAlert = Ti.UI.createAlertDialog({
-		title: 'Coming Soon',
-		message: 'End screen is not yet implemented.',
-		ok: 'OK'
-	});
-	tempAlert.show();
+	// Open End/Summary screen
+	var endWindow = Alloy.createController('end').getView();
+	endWindow.open();
 }
 
 function goBack(e) {
